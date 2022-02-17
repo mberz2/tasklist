@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
-import List from "../components/List";
-import store from "../utils/store";
-import StoreApi from "../utils/storeApi";
-import InputContainer from "../components/InputContainer";
+import List from "./components/List";
+import store from "./utils/store";
+import StoreApi from "./utils/storeApi";
+import InputContainer from "./components/InputContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -11,7 +11,7 @@ const useStyle = makeStyles((theme) => ({
   root: {
     display: "flex",
     minHeight: "100vh",
-    background: "green",
+    background: "#659ebc",
     width: "100%",
     overflowY: "auto"
   }
