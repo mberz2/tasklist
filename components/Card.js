@@ -8,12 +8,12 @@ const useStyle = makeStyles((theme) => ({
     margin: theme.spacing(1)
   }
 }));
-export default function Card() {
+export default function Card({ card }) {
   const classes = useStyle();
 
   return (
     <div>
-      <Paper className={classes.card}>Test</Paper>
+      <Paper className={classes.card}>{card.content}</Paper>
     </div>
   );
 }
