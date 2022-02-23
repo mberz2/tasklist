@@ -6,6 +6,9 @@ class List extends React.Component {
     return (
       <div>
         <p> List component </p>
+        <Card />
+        <Card />
+        <Card />
       </div>
     );
   }
