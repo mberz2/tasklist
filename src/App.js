@@ -1,8 +1,8 @@
-import { TimerSharp } from "@material-ui/icons";
 import React, { useState } from "react";
 import Board from "./components/Board";
 import data from "./sampleData";
 import Home from "./components/pages/Home";
+import "./styles/App.css";
 
 class App extends React.Component {
   state = {
