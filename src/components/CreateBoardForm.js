@@ -20,6 +20,7 @@ class CreateBoardForm extends React.Component {
     if (board.title && board.background) {
       this.props.createNewBoard(board);
     }
+    this.setState({ title: "" });
   };
 
   //Render page

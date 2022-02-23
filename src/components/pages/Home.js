@@ -9,9 +9,10 @@ class Home extends React.Component {
       <div>
         <CreateBoardForm createNewBoard={this.props.createNewBoard} />
         <div className="board-preview-wrapper">
-          {Object.keys(this.props.boards).map((key) => (
-            <BoardPreview key={key} board={this.props.boards[key]} />
-          ))}
+          {this.props.boards &&
+            Object.keys(this.props.boards).map((key) => (
+              <BoardPreview key={key} board={this.props.boards[key]} />
+            ))}
         </div>
       </div>
     );

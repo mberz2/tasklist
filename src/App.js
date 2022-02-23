@@ -3,12 +3,7 @@ import Board from "./components/Board";
 import data from "./sampleData";
 import Home from "./components/pages/Home";
 import "./styles/App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/pages/PageNotFound";
 
 class App extends React.Component {
@@ -33,12 +28,18 @@ class App extends React.Component {
       <Router>
         <div>
           <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  boards={this.state.boards}
+                  createNewBoard={this.createNewBoard}
+                />
+              }
+            ></Route>
             <Route path="/board" element={<Board />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
-
-          {/*         <Home boards={this.state.boards} createNewBoard={this.createNewBoard} />
-        <Board /> */}
         </div>
       </Router>
     );
