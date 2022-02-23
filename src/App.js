@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./components/Board";
 import data from "./sampleData";
 import Home from "./components/pages/Home";
 import "./styles/App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useParams
+} from "react-router-dom";
+
 import PageNotFound from "./components/pages/PageNotFound";
 
 class App extends React.Component {
@@ -29,7 +35,7 @@ class App extends React.Component {
         <div>
           <Routes>
             <Route
-              path="/"
+              path="/:userId/boards"
               element={
                 <Home
                   boards={this.state.boards}
