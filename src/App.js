@@ -8,13 +8,24 @@ class App extends React.Component {
   state = {
     boards: []
   };
+
+  //Immediately sets the state after the
+  //component is mounted.
   componentDidMount() {
     this.setState({ boards: data.boards });
   }
+
+  //Method for creating a new board
+  createNewBoard = (board) => {
+    this.setState({ boards: [...this.state.boards, board] });
+  };
+
+  //Render the page
   render() {
     return (
       <div>
-        <Home boards={this.state.boards} />
+        <Home boards={this.state.boards} createNewBoard={this.createNewBoard} />
+        <Board />
       </div>
     );
   }
