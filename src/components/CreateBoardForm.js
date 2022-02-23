@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class CreateBoardForm extends React.Component {
   //Default state
@@ -49,5 +50,9 @@ class CreateBoardForm extends React.Component {
     );
   }
 }
+
+CreateBoardForm.propTypes = {
+  createNewBoard: PropTypes.func.isRequired
+};
 
 export default CreateBoardForm;
