@@ -6,6 +6,7 @@ import StoreApi from "./utils/storeApi";
 import InputContainer from "./components/InputContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import Board from "./components/Board";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,9 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export default function App() {
+  return <Board />;
+
+  /*
   const [data, setData] = useState(store);
   const classes = useStyle();
   const addMoreCard = (title, listId) => {
@@ -140,5 +144,6 @@ export default function App() {
         </Droppable>
       </DragDropContext>
     </StoreApi.Provider>
-  );
+      );
+    */
 }
