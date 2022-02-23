@@ -3,7 +3,11 @@ import Card from "./Card";
 
 class List extends React.Component {
   render() {
-    return <p> List component </p>;
+    return (
+      <div>
+        <p> List component </p>
+      </div>
+    );
   }
 }
 
