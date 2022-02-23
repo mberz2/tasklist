@@ -3,12 +3,7 @@ import Board from "./components/Board";
 import data from "./sampleData";
 import Home from "./components/pages/Home";
 import "./styles/App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import PageNotFound from "./components/pages/PageNotFound";
 
@@ -43,7 +38,7 @@ class App extends React.Component {
                 />
               }
             ></Route>
-            <Route path="/board" element={<Board />} />
+            <Route path="/board/:boardId" element={<Board />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
