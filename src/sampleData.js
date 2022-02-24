@@ -24,11 +24,11 @@ const lists = [
     cards: [
       {
         id: 1,
-        text: "card 1"
+        text: "Clean up the house"
       },
       {
         id: 2,
-        text: "card 2"
+        text: "Install new things"
       }
     ]
   },
@@ -39,11 +39,11 @@ const lists = [
     cards: [
       {
         id: 11,
-        text: "card 11"
+        text: "Go to Europe"
       },
       {
         id: 22,
-        text: "card 22"
+        text: "RoadTrip USA"
       }
     ]
   },
@@ -54,11 +54,11 @@ const lists = [
     cards: [
       {
         id: 11,
-        text: "card 11"
+        text: "Visit friends"
       },
       {
         id: 22,
-        text: "card 22"
+        text: "Visit family"
       }
     ]
   }

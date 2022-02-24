@@ -26,10 +26,14 @@ export default function App() {
       <Router>
         <div>
           <Routes>
+            <Route
+              path="/"
+              element={
+                <Home boards={state.boards} createNewBoard={createNewBoard} />
+              }
+            ></Route>
             <Route path="/board" element={<Board />} />
             <Route path="*" element={<PageNotFound />} />
-            {/*           <Home boards={state.boards} createNewBoard={createNewBoard} />
-          <Board /> */}
           </Routes>
         </div>
       </Router>
