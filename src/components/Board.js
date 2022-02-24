@@ -1,6 +1,9 @@
 import React from "react";
 import List from "./List";
 import data from "../sampleData";
+import { useMatch } from "react-location";
+import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 class Board extends React.Component {
   state = {
@@ -51,7 +54,8 @@ class Board extends React.Component {
   //Render the page
   render() {
     return (
-      <div>
+      <div className="board-wrapper">
+        {console.log(this.props.route)}
         <div className="lists-wrapper">
           {Object.keys(this.state.currentLists).map((key) => (
             <List

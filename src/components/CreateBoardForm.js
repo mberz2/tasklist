@@ -1,55 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-class CreateBoardForm extends React.Component {
+function CreateBoardForm(props) {
   //Default state
-  state = {
-    title: "",
-    background: "#80ccff"
-  };
+  const [val, setVal] = useState({ title: "", background: "#80ccff" });
 
   //Method to handle form submission
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
+    console.log("Handling submit");
     e.preventDefault();
     const board = {
-      title: this.state.title,
-      background: this.state.background,
+      title: val.title,
+      background: val.background,
       createdAt: new Date(),
       user: "abc123"
     };
     if (board.title && board.background) {
-      this.props.createNewBoard(board);
+      props.createNewBoard(board);
+    } else {
+      console.log(board.title + " " + board.background);
+      console.log("Missing parameters");
     }
-    this.setState({ title: "" });
+    //Reset form value
+    setVal({ ...val, title: "" });
   };
 
   //Render page
-  render() {
-    return (
-      <div>
-        <form className="create-board-wrapper" onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Board name"
-            onChange={(e) => this.setState({ title: e.target.value })}
-          />
-          <select
-            name="background"
-            onChange={(e) => this.setState({ background: e.target.value })}
-          >
-            <option value="#80ccff">Blue</option>
-            <option value="#80ffaa">Green</option>
-            <option value="#f94a1e">Red</option>
-            <option value="#ffb3ff">Pink</option>
-            <option value="#bf00ff">Purple</option>
-            <option value="#ffad33">Orange</option>
-          </select>
-          <button type="submit">Create New Board</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form className="create-board-wrapper" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Board name"
+          value={val.title}
+          onChange={(e) => setVal({ ...val, title: e.target.value })}
+        />
+        <select
+          name="background"
+          onChange={(e) => setVal({ ...val, background: e.target.value })}
+        >
+          <option value="#80ccff">Blue</option>
+          <option value="#80ffaa">Green</option>
+          <option value="#f94a1e">Red</option>
+          <option value="#ffb3ff">Pink</option>
+          <option value="#bf00ff">Purple</option>
+          <option value="#ffad33">Orange</option>
+        </select>
+        <button type="submit">Create New Board</button>
+      </form>
+    </div>
+  );
 }
 
 CreateBoardForm.propTypes = {

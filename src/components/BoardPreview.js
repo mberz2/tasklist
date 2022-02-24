@@ -6,13 +6,18 @@ import { useParams } from "react-router-dom";
 
 function BoardPreview(props) {
   let params = useParams();
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   return (
     <ul
       className="board-preview-item"
       onClick={() => {
-        navigate(`/board/${props.board.id}`);
+        navigate(`/board/${props.board.id}`, {
+          state: {
+            title: props.board.title,
+            background: props.board.background
+          }
+        });
       }}
       style={{ backgroundColor: props.board.background }}
     >
