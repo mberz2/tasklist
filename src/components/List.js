@@ -23,7 +23,6 @@ function List(props) {
   };
   return (
     <div className="list">
-      {console.log("ListPROPS\n" + JSON.stringify(props))}
       <div className="list-header">
         <p>{props.list.title}</p>
       </div>
@@ -42,8 +41,8 @@ function List(props) {
   );
 }
 
-List.propTypes = {
+/* List.propTypes = {
   List: PropTypes.object.isRequired
-};
+}; */
 
 export default List;

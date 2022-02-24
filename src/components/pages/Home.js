@@ -2,8 +2,11 @@ import React from "react";
 import BoardPreview from "../BoardPreview";
 import PropTypes from "prop-types";
 import CreateBoardForm from "../CreateBoardForm";
+import { useParams } from "react-router-dom";
 
 function Home(props) {
+  let params = useParams();
+
   const newBoard = () => {
     const board = {
       title: "New Task",
@@ -14,8 +17,11 @@ function Home(props) {
     props.createNewBoard(board);
   };
 
+  console.log("Params: \n" + params);
+
   return (
     <div>
+      <p>User: {params.userId}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
         {props.boards.map((key) => (
