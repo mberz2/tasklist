@@ -1,50 +1,38 @@
-import React, { useEffect, useState } from "react";
+import "./styles/App.css";
 import Board from "./components/Board";
+import React, { useState, useEffect } from "react";
 import data from "./sampleData";
 import Home from "./components/pages/Home";
-import "./styles/App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import PageNotFound from "./components/pages/PageNotFound";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-class App extends React.Component {
-  state = {
-    boards: []
+export default function App() {
+  // The 'useState' hook (function) returns a
+  // getter (variable) & setter (function) for
+  // your state value - and takes the
+  // initial/default value for it/to set it to, e.g.
+  const [state, setStates] = useState({ boards: [] });
+
+  useEffect(() => {
+    setStates({ boards: data.boards });
+  }, []);
+
+  const createNewBoard = (board) => {
+    setStates({ boards: [...state.boards, board] });
   };
 
-  //Immediately sets the state after the
-  //component is mounted.
-  componentDidMount() {
-    this.setState({ boards: data.boards });
-  }
-
-  //Method for creating a new board
-  createNewBoard = (board) => {
-    this.setState({ boards: [...this.state.boards, board] });
-  };
-
-  //Render the page
-  render() {
-    return (
+  return (
+    <div>
       <Router>
         <div>
           <Routes>
-            <Route
-              path="/:userId/boards"
-              element={
-                <Home
-                  boards={this.state.boards}
-                  createNewBoard={this.createNewBoard}
-                />
-              }
-            ></Route>
-            <Route path="/board/:boardId" element={<Board />} />
+            <Route path="/board" element={<Board />} />
             <Route path="*" element={<PageNotFound />} />
+            {/*           <Home boards={state.boards} createNewBoard={createNewBoard} />
+          <Board /> */}
           </Routes>
         </div>
       </Router>
-    );
-  }
+    </div>
+  );
 }
-
-export default App;

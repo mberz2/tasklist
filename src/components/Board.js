@@ -1,33 +1,23 @@
 import React from "react";
 import List from "./List";
+import { useState, useEffect } from "react";
 import data from "../sampleData";
-import { useMatch } from "react-location";
-import { useParams } from "react-router-dom";
-import { useState, useEffect, useRef, useCallback } from "react";
 
-class Board extends React.Component {
-  state = {
-    currentLists: []
-  };
+function Board(props) {
+  const [list, setLists] = useState({ currentLists: [] });
 
-  //Immediately sets the state after the
-  //component is mounted.
-  componentDidMount() {
-    this.setState({ currentLists: data.lists });
-  }
+  useEffect(() => {
+    setLists({ currentLists: data.lists });
+  }, []);
 
-  addBoardInput = React.createRef();
+  let addBoardInput = React.createRef();
 
-  //Method to create a new List
-  createNewList = (e) => {
-    //Prevent default form submission behavior
+  const createNewList = (e) => {
     e.preventDefault();
-
-    //Create a list
-    const list = {
+    const newList = {
       id: Math.random(),
-      title: this.addBoardInput.current.value,
-      board: 300,
+      title: addBoardInput.current.value,
+      board: 500,
       createdAt: new Date(),
       cards: [
         {
@@ -40,41 +30,37 @@ class Board extends React.Component {
         }
       ]
     };
-
-    //Check if the list title is present
-    //Avoids creating empty lists
-    if (list.title) {
-      this.setState({ currentLists: [...this.state.currentLists, list] });
+    if (newList.title) {
+      setLists({ currentLists: [...list.currentLists, newList] });
     }
-
-    //Reset the list title after submitting
-    this.addBoardInput.current.value = "";
+    addBoardInput.current.value = "";
   };
-
-  //Render the page
-  render() {
-    return (
-      <div className="board-wrapper">
-        {console.log(this.props.route)}
-        <div className="lists-wrapper">
-          {Object.keys(this.state.currentLists).map((key) => (
-            <List
-              key={this.state.currentLists[key].id}
-              list={this.state.currentLists[key]}
-            />
-          ))}
-        </div>
-        <form onSubmit={this.createNewList} className="new-list-wrapper">
-          <input
-            ref={this.addBoardInput}
-            type="text"
-            name="name"
-            placeholder=" + New List"
-          />
-        </form>
+  return (
+    <div className="board-wrapper">
+      <div className="lists-wrapper">
+        {Object.keys(list.currentLists).map(
+          (key) => (
+            console.log("KEY: " + JSON.stringify(list.currentLists[key])),
+            (
+              <List
+                key={list.currentLists[key].id}
+                list={list.currentLists[key]}
+              />
+            )
+          )
+        )}
       </div>
-    );
-  }
+
+      <form onSubmit={(e) => createNewList(e)} className="new-list-wrapper">
+        <input
+          type="text"
+          ref={addBoardInput}
+          name="name"
+          placeholder=" + New list"
+        />
+      </form>
+    </div>
+  );
 }
 
 export default Board;

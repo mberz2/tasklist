@@ -1,57 +1,49 @@
 import React from "react";
 import Card from "./Card";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-class List extends React.Component {
-  //State object to store the current cards
-  state = {
-    currentCards: []
-  };
+function List(props) {
+  const [card, setCards] = useState({ currentCards: [] });
+  let nameInput = React.createRef();
 
-  //Ref
-  nameInput = React.createRef();
-
-  //Method for creating a new card
-  createNewCard = (e) => {
+  const createNewCard = (e) => {
     e.preventDefault();
-    const card = {
-      text: this.nameInput.current.value,
+    const newCard = {
+      text: nameInput.current.value,
       listId: "abc123",
       labels: [],
       createdAt: new Date()
     };
-    //Check if the card is empty
-    if (card.text) {
-      this.setState({ currentCards: [...this.state.currentCards, card] });
+    if (newCard.text) {
+      setCards({ currentCards: [...card.currentCards, newCard] });
     }
-    //Reset input
-    this.nameInput.current.value = "";
-  };
 
-  render() {
-    return (
-      <div className="list">
-        <div className="list-header">
-          <p> {this.props.list.title} </p>
-        </div>
-        {Object.keys(this.props.list.cards).map((key) => (
-          <Card key={key} data={this.props.list.cards[key]} />
-        ))}
-        <form onSubmit={this.createNewCard} className="new-card-wrapper">
-          <input
-            ref={this.nameInput}
-            type="text"
-            name="name"
-            placeholder=" + New Card"
-          />
-        </form>
+    nameInput.current.value = "";
+  };
+  return (
+    <div className="list">
+      {console.log("ListPROPS\n" + JSON.stringify(props))}
+      <div className="list-header">
+        <p>{props.list.title}</p>
       </div>
-    );
-  }
+      {Object.keys(props.list.cards).map((key) => (
+        <Card key={key} data={props.list.cards[key]} />
+      ))}
+      <form onSubmit={createNewCard} className="new-card-wrapper">
+        <input
+          type="text"
+          ref={nameInput}
+          name="name"
+          placeholder=" + New Card"
+        />
+      </form>
+    </div>
+  );
 }
 
 List.propTypes = {
-  list: PropTypes.object.isRequired
+  List: PropTypes.object.isRequired
 };
 
 export default List;
