@@ -10,13 +10,13 @@ function Board(props) {
 
   let { state } = useLocation();
   let background;
+  let title = "Error Retrieving Title";
   if (!state) {
     background = "#FF0000";
   } else {
+    title = state.title;
     background = state.background;
   }
-  console.log(state);
-  console.log(background);
 
   const [list, setLists] = useState({ currentLists: [] });
 
@@ -50,11 +50,10 @@ function Board(props) {
     addBoardInput.current.value = "";
   };
 
-  console.log(params.state);
   return (
     <div className="board-wrapper" style={{ backgroundColor: background }}>
       <div className="board-header">
-        <h3>Board Title: {params.boardId}</h3>
+        <h3>Board Title: {title}</h3>
         <button>Delete Board</button>
       </div>
       <div className="lists-wrapper">

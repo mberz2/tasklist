@@ -7,18 +7,6 @@ import { useParams } from "react-router-dom";
 function Home(props) {
   let params = useParams();
 
-  const newBoard = () => {
-    const board = {
-      title: "New Task",
-      background: "#80ffaa",
-      createdAt: new Date()
-    };
-
-    props.createNewBoard(board);
-  };
-
-  console.log("Params: \n" + params);
-
   return (
     <div>
       <p>User: {params.userId}</p>

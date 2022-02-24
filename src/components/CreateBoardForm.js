@@ -4,41 +4,52 @@ import { useState, useEffect } from "react";
 
 function CreateBoardForm(props) {
   //Default state
-  const [state, setStates] = useState({ title: "", background: "#80ccff" });
+  const [state, setState] = useState({ title: "", background: "" });
+  let titleInput = React.createRef();
+  let bgInput = React.createRef();
+
+  const handleInputChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = (e, userId) => {
     e.preventDefault();
-    console.log(state);
 
     const board = {
       title: state.title,
       background: state.background,
       createdAt: new Date(),
-      user: userId
+      user: "userId"
     };
-    console.log(
-      "Title: " + state.title + " " + "Background: " + state.background
-    );
     if (state.title && state.background) {
       console.log("Creating board");
       props.createNewBoard(board);
+    } else if (state.background === "default") {
+      console.log("Invalid background");
     } else {
       console.log("Missing params in create board.");
     }
-    setStates({ title: "" });
+    titleInput.current.value = "";
+    bgInput.current.value = "default";
+
+    //ToDo use proper state assignment
+    state.title = "";
+    state.background = "";
   };
 
   return (
     <form className="create-board-wrapper" onSubmit={(e) => handleSubmit(e)}>
       <input
+        ref={titleInput}
         type="text"
-        name="name"
-        onChange={(e) => setStates({ ...state, title: e.target.value })}
+        name="title"
+        onChange={handleInputChange}
       />
-      <select
-        name="background"
-        onChange={(e) => setStates({ ...state, background: e.target.value })}
-      >
+      <select name="background" ref={bgInput} onChange={handleInputChange}>
+        <option value="default">Select a color</option>
         <option value="#80ccff">Blue</option>
         <option value="#80ffaa">Green</option>
         <option value="#f94a1e">Red</option>
