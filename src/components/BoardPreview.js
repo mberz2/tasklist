@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 function BoardPreview(props) {
   let navigate = useNavigate();
 
+  console.log("[BP] Props\n" + JSON.stringify(props));
+
   const goToBoard = () => {
     const boardId = props.board.id;
     navigate(`/board/${boardId}`, {

@@ -7,10 +7,12 @@ import { cardsRef } from "../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 function List(props) {
+  let TAG = "[List.js] ";
   const [card, setCards] = useState({ currentCards: [] });
   let nameInput = React.createRef();
 
   const createNewCard = async (e) => {
+    console.log(TAG + "Creating new card.");
     try {
       e.preventDefault();
       const newCard = {
@@ -20,12 +22,13 @@ function List(props) {
         createdAt: new Date()
       };
       if (newCard.text && newCard.listId) {
+        console.log(TAG + "Adding card.");
         await addDoc(cardsRef, newCard);
       }
 
       nameInput.current.value = "";
     } catch (error) {
-      console.error("Error creating new card: ", error);
+      console.error(TAG + "Error creating new card: ", error);
     }
   };
   return (

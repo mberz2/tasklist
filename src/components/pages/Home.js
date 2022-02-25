@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 function Home(props) {
   let params = useParams();
+  console.log("[Home] Props\n" + JSON.stringify(props));
 
   return (
     <div>

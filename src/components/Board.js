@@ -6,16 +6,23 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import { listsRef } from "../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 
 function Board(props) {
+  let TAG = "[Board.js] ";
   let params = useParams();
-
   let { state } = useLocation();
+
+  console.log(TAG + props);
+
+  // Variables for background color and title
   let background;
-  let title = "Error Retrieving Title";
+  let title;
+
+  // Attempt to access navigation/state
   if (!state) {
     background = "#FF0000";
+    title = "Error Retrieving Title";
   } else {
     title = state.title;
     background = state.background;
@@ -23,7 +30,9 @@ function Board(props) {
 
   const [list, setLists] = useState({ currentLists: [] });
 
+  // Update the state of the lists
   useEffect(() => {
+    console.log(TAG + "Setting list states");
     setLists({ currentLists: data.lists });
   }, []);
 
@@ -33,20 +42,18 @@ function Board(props) {
     try {
       e.preventDefault();
       const newList = {
-        id: Math.random(),
         title: addBoardInput.current.value,
         board: params.boardId,
         createdAt: new Date()
       };
-      console.log(newList.title + " " + list.board);
+
       if (newList.title && newList.board) {
-        console.log("Adding new list");
+        console.log(TAG + "Adding new list");
         await addDoc(listsRef, newList);
       }
-
       addBoardInput.current.value = "";
     } catch (error) {
-      console.error("Error creating new list: ", error);
+      console.error(TAG + "Error creating new list: ", error);
     }
   };
 

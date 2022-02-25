@@ -1,7 +1,7 @@
 //import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, doc } from "firebase/firestore";
 import * as firebase from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
@@ -29,6 +29,7 @@ const auth = getAuth(app);
 
 export { db };
 
+//export const boardRef = doc(db, "boards");
 export const boardsRef = collection(db, "boards");
 export const listsRef = collection(db, "lists");
 export const cardsRef = collection(db, "cards");
