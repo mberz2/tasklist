@@ -30,9 +30,5 @@ const auth = getAuth(app);
 export { db };
 
 export const boardsRef = collection(db, "boards");
-
-//const boardsRef = db.collection("boards");
-//const listsRef = db.collection("lists");
-//const cardsRef = db.collection("cards");
-
-//export { boardsRef, listsRef, cardsRef };
+export const listsRef = collection(db, "lists");
+export const cardsRef = collection(db, "cards");

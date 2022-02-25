@@ -3,23 +3,30 @@ import Card from "./Card";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+import { cardsRef } from "../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+
 function List(props) {
   const [card, setCards] = useState({ currentCards: [] });
   let nameInput = React.createRef();
 
-  const createNewCard = (e) => {
-    e.preventDefault();
-    const newCard = {
-      text: nameInput.current.value,
-      listId: "abc123",
-      labels: [],
-      createdAt: new Date()
-    };
-    if (newCard.text) {
-      setCards({ currentCards: [...card.currentCards, newCard] });
-    }
+  const createNewCard = async (e) => {
+    try {
+      e.preventDefault();
+      const newCard = {
+        text: nameInput.current.value,
+        listId: props.list.id,
+        labels: [],
+        createdAt: new Date()
+      };
+      if (newCard.text && newCard.listId) {
+        await addDoc(cardsRef, newCard);
+      }
 
-    nameInput.current.value = "";
+      nameInput.current.value = "";
+    } catch (error) {
+      console.error("Error creating new card: ", error);
+    }
   };
   return (
     <div className="list">

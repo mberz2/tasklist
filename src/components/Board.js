@@ -5,6 +5,9 @@ import data from "../sampleData";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+import { listsRef } from "../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+
 function Board(props) {
   let params = useParams();
 
@@ -26,28 +29,25 @@ function Board(props) {
 
   let addBoardInput = React.createRef();
 
-  const createNewList = (e) => {
-    e.preventDefault();
-    const newList = {
-      id: Math.random(),
-      title: addBoardInput.current.value,
-      board: 500,
-      createdAt: new Date(),
-      cards: [
-        {
-          id: 1,
-          text: "Card 1"
-        },
-        {
-          id: 2,
-          text: "Card 2"
-        }
-      ]
-    };
-    if (newList.title) {
-      setLists({ currentLists: [...list.currentLists, newList] });
+  const createNewList = async (e) => {
+    try {
+      e.preventDefault();
+      const newList = {
+        id: Math.random(),
+        title: addBoardInput.current.value,
+        board: params.boardId,
+        createdAt: new Date()
+      };
+      console.log(newList.title + " " + list.board);
+      if (newList.title && newList.board) {
+        console.log("Adding new list");
+        await addDoc(listsRef, newList);
+      }
+
+      addBoardInput.current.value = "";
+    } catch (error) {
+      console.error("Error creating new list: ", error);
     }
-    addBoardInput.current.value = "";
   };
 
   return (

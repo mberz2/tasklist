@@ -6,7 +6,7 @@ import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { boardsRef, db } from "./Firebase";
+import { boardsRef, db } from "./firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 export default function App() {
@@ -23,7 +23,8 @@ export default function App() {
   const createNewBoard = async (board) => {
     try {
       console.log("Adding new board");
-      const newBoard = await addDoc(collection(db, "boards"), board);
+      //const newBoard = await addDoc(collection(db, "boards"), board);
+      const newBoard = await addDoc(boardsRef, board);
       const boardObj = {
         id: newBoard.id,
         ...board
