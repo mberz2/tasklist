@@ -5,7 +5,6 @@ import { addDoc, getDocs } from "firebase/firestore";
 
 import "./styles/App.css";
 import Board from "./components/Board";
-import data from "./sampleData";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 
