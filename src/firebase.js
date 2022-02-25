@@ -1,15 +1,6 @@
-//import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import { getFirestore, collection, getDocs, doc } from "firebase/firestore";
-import * as firebase from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,13 +12,12 @@ const firebaseConfig = {
   appId: "1:898319696733:web:f383075d112c2014379eb4"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-//const db = getDatabase(app);
-const db = getFirestore(app);
-const auth = getAuth(app);
 
-export { db };
+export const db = getFirestore(app);
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
 //export const boardRef = doc(db, "boards");
 export const boardsRef = collection(db, "boards");

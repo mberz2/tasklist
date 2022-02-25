@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { cardsRef } from "../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 
 function List(props) {
   let TAG = "[List.js] ";
   const [card, setCards] = useState({ currentCards: [] });
   let nameInput = React.createRef();
+
+  console.log(TAG + JSON.stringify(props));
 
   const createNewCard = async (e) => {
     console.log(TAG + "Creating new card.");
@@ -36,9 +38,9 @@ function List(props) {
       <div className="list-header">
         <p>{props.list.title}</p>
       </div>
-      {Object.keys(props.list.cards).map((key) => (
+      {/*       {Object.keys(props.list.cards).map((key) => (
         <Card key={key} data={props.list.cards[key]} />
-      ))}
+      ))} */}
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
           type="text"

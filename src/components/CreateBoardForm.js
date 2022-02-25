@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
 function CreateBoardForm(props) {
+  let TAG = "[CBF] ";
   //Default state
   const [state, setState] = useState({ title: "", background: "" });
   let titleInput = React.createRef();

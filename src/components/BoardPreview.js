@@ -8,13 +8,8 @@ function BoardPreview(props) {
   console.log("[BP] Props\n" + JSON.stringify(props));
 
   const goToBoard = () => {
-    const boardId = props.board.id;
-    navigate(`/board/${boardId}`, {
-      state: {
-        title: props.board.title,
-        background: props.board.background
-      }
-    });
+    const boardId = props.board.board.id;
+    navigate(`/board/${boardId}`, {});
   };
 
   return (
@@ -22,9 +17,9 @@ function BoardPreview(props) {
       <ul
         className="board-preview-item"
         onClick={goToBoard}
-        style={{ backgroundColor: props.board.background }}
+        style={{ backgroundColor: props.board.board.background }}
       >
-        <li>{props.board.title}</li>
+        <li>{props.board.board.title}</li>
       </ul>
     </div>
   );

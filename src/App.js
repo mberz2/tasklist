@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { boardsRef } from "./firebase";
-import { addDoc } from "firebase/firestore";
+import { addDoc, getDocs } from "firebase/firestore";
 
 import "./styles/App.css";
 import Board from "./components/Board";
@@ -13,13 +13,39 @@ export default function App() {
   let TAG = "[App.js] ";
 
   // getter/setter for boards array.
-  const [state, setStates] = useState({ boards: [] });
+  const [state, setStates] = useState([]);
 
-  // Update the state of the boards
-  useEffect(() => {
-    console.log(TAG + "Setting board states");
-    setStates({ boards: data.boards });
-  }, []);
+  const getBoards = async (userId) => {
+    try {
+      // Clear the states of the boards
+      setStates([]);
+
+      const FSboards = await getDocs(boardsRef);
+
+      console.log(TAG + "Retrieved boards");
+      // Populate state from each Board
+      FSboards.forEach((board) => {
+        const data = board.data();
+        const boardObj = {
+          id: board.id,
+          ...data
+        };
+
+        setStates((state) => [
+          ...state,
+          {
+            board: boardObj
+          }
+        ]);
+
+        //console.log("2\n" + JSON.stringify(state, null, 4));
+      });
+    } catch (error) {
+      console.log(TAG + "Error getting boards", error);
+    }
+  };
+
+  //getBoards();
 
   // Method to create a new board
   const createNewBoard = async (board) => {
@@ -33,7 +59,12 @@ export default function App() {
       };
 
       // Update board state with the new board.
-      setStates({ boards: [...state.boards, boardObj] });
+      setStates((state) => [
+        ...state,
+        {
+          board: boardObj
+        }
+      ]);
     } catch (error) {
       // If there's an error, output to console.
       console.error(TAG + "Error creating new board: ", error);
@@ -49,7 +80,11 @@ export default function App() {
             <Route
               path="/:userId/boards"
               element={
-                <Home boards={state.boards} createNewBoard={createNewBoard} />
+                <Home
+                  boards={state}
+                  createNewBoard={createNewBoard}
+                  getBoards={getBoards}
+                />
               }
             ></Route>
             <Route path="/board/:boardId" element={<Board />} />
