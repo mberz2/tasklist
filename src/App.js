@@ -14,54 +14,44 @@ export default function App() {
   // getter/setter for boards array.
   const [state, setStates] = useState([]);
 
+  // Retrieves boards from the database
   const getBoards = async (userId) => {
     try {
       // Clear the states of the boards
       setStates([]);
 
-      const FSboards = await getDocs(boardsRef);
+      const boards = await getDocs(boardsRef);
 
       console.log(TAG + "Retrieved boards");
       // Populate state from each Board
-      FSboards.forEach((board) => {
+      boards.forEach((board) => {
         const data = board.data();
-        const boardObj = {
-          id: board.id,
-          ...data
-        };
-
         setStates((state) => [
           ...state,
           {
-            board: boardObj
+            id: board.id,
+            ...data
           }
         ]);
-
-        //console.log("2\n" + JSON.stringify(state, null, 4));
       });
     } catch (error) {
       console.log(TAG + "Error getting boards", error);
     }
   };
 
-  //getBoards();
-
   // Method to create a new board
   const createNewBoard = async (board) => {
     try {
       console.log(TAG + "Adding new board");
       // Push board to Firebase and retrieve ID
-      const newBoard = await addDoc(boardsRef, board);
-      const boardObj = {
-        id: newBoard.id,
-        ...board
-      };
+      const newBoard = await addDoc(boardsRef, { board });
 
       // Update board state with the new board.
       setStates((state) => [
         ...state,
         {
-          board: boardObj
+          id: newBoard.id,
+          ...board
         }
       ]);
     } catch (error) {

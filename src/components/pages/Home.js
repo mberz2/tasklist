@@ -5,13 +5,14 @@ import CreateBoardForm from "../CreateBoardForm";
 import { useParams } from "react-router-dom";
 
 function Home(props) {
+  let TAG = "[HOME] ";
   let params = useParams();
-  //console.log("[Home] Props\n" + JSON.stringify(props));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "Params\n" + JSON.stringify(params));
 
   // Update the state of the boards
   useEffect(() => {
     props.getBoards();
-    //setStates({ boards: data.boards });
   }, []);
 
   return (

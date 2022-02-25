@@ -11,7 +11,7 @@ function List(props) {
   const [card, setCards] = useState({ currentCards: [] });
   let nameInput = React.createRef();
 
-  console.log(TAG + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
 
   const createNewCard = async (e) => {
     console.log(TAG + "Creating new card.");
@@ -55,6 +55,6 @@ function List(props) {
 
 /* List.propTypes = {
   List: PropTypes.object.isRequired
-}; */
-
+};
+ */
 export default List;

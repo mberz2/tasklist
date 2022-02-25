@@ -8,7 +8,7 @@ function BoardPreview(props) {
   console.log("[BP] Props\n" + JSON.stringify(props));
 
   const goToBoard = () => {
-    const boardId = props.board.board.id;
+    const boardId = props.board.id;
     navigate(`/board/${boardId}`, {});
   };
 
