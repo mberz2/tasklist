@@ -1,49 +1,60 @@
 import React from "react";
-import { Paper, Typography, CssBaseline } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Title from "./Title";
 import Card from "./Card";
-import InputContainer from "./InputContainer";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    minWidth: "300px",
-    backgroundColor: "#fbeec1",
-    marginLeft: theme.spacing(1)
-  },
-  cardContainer: {
-    marginTop: theme.spacing(4)
-  }
-}));
-export default function List({ list, index }) {
-  const classes = useStyle();
+import { cardsRef } from "../firebase";
+import { addDoc } from "firebase/firestore";
+
+function List(props) {
+  let TAG = "[List.js] ";
+  const [card, setCards] = useState({ currentCards: [] });
+  let nameInput = React.createRef();
+
+  console.log(TAG + JSON.stringify(props));
+
+  const createNewCard = async (e) => {
+    console.log(TAG + "Creating new card.");
+    try {
+      e.preventDefault();
+      const newCard = {
+        text: nameInput.current.value,
+        listId: props.list.id,
+        labels: [],
+        createdAt: new Date()
+      };
+      if (newCard.text && newCard.listId) {
+        console.log(TAG + "Adding card.");
+        await addDoc(cardsRef, newCard);
+      }
+
+      nameInput.current.value = "";
+    } catch (error) {
+      console.error(TAG + "Error creating new card: ", error);
+    }
+  };
   return (
-    <Draggable draggableId={list.id} index={index}>
-      {(provided) => (
-        <div {...provided.draggableProps} ref={provided.innerRef}>
-          <Paper className={classes.root} {...provided.dragHandleProps}>
-            <CssBaseline />
-            <Title title={list.title} listId={list.id} />
-            <Droppable droppableId={list.id}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className={classes.cardContainer}
-                >
-                  {list.cards.map((card, index) => (
-                    <Card key={card.id} card={card} index={index} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-
-            <InputContainer listId={list.id} type="card" />
-          </Paper>
-        </div>
-      )}
-    </Draggable>
+    <div className="list">
+      <div className="list-header">
+        <p>{props.list.title}</p>
+      </div>
+      {/*       {Object.keys(props.list.cards).map((key) => (
+        <Card key={key} data={props.list.cards[key]} />
+      ))} */}
+      <form onSubmit={createNewCard} className="new-card-wrapper">
+        <input
+          type="text"
+          ref={nameInput}
+          name="name"
+          placeholder=" + New Card"
+        />
+      </form>
+    </div>
   );
 }
+
+/* List.propTypes = {
+  List: PropTypes.object.isRequired
+}; */
+
+export default List;

@@ -1,144 +1,97 @@
-import React, { useState } from "react";
-import { v4 as uuid } from "uuid";
-import List from "./components/List";
-import store from "./utils/store";
-import StoreApi from "./utils/storeApi";
-import InputContainer from "./components/InputContainer";
-import { makeStyles } from "@material-ui/core/styles";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { boardsRef } from "./firebase";
+import { addDoc, getDocs } from "firebase/firestore";
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    minHeight: "100vh",
-    background: "#659ebc",
-    width: "100%",
-    overflowY: "auto"
-  }
-}));
+import "./styles/App.css";
+import Board from "./components/Board";
+import data from "./sampleData";
+import Home from "./components/pages/Home";
+import PageNotFound from "./components/pages/PageNotFound";
 
 export default function App() {
-  const [data, setData] = useState(store);
-  const classes = useStyle();
-  const addMoreCard = (title, listId) => {
-    console.log(title, listId);
+  let TAG = "[App.js] ";
 
-    const newCardId = uuid();
-    const newCard = {
-      id: newCardId,
-      title
-    };
+  // getter/setter for boards array.
+  const [state, setStates] = useState([]);
 
-    const list = data.lists[listId];
-    list.cards = [...list.cards, newCard];
+  const getBoards = async (userId) => {
+    try {
+      // Clear the states of the boards
+      setStates([]);
 
-    const newState = {
-      ...data,
-      lists: {
-        ...data.lists,
-        [listId]: list
-      }
-    };
-    setData(newState);
-  };
+      const FSboards = await getDocs(boardsRef);
 
-  const addMoreList = (title) => {
-    const newListId = uuid();
-    const newList = {
-      id: newListId,
-      title,
-      cards: []
-    };
-    const newState = {
-      listIds: [...data.listIds, newListId],
-      lists: {
-        ...data.lists,
-        [newListId]: newList
-      }
-    };
-    setData(newState);
-  };
+      console.log(TAG + "Retrieved boards");
+      // Populate state from each Board
+      FSboards.forEach((board) => {
+        const data = board.data();
+        const boardObj = {
+          id: board.id,
+          ...data
+        };
 
-  const updateListTitle = (title, listId) => {
-    const list = data.lists[listId];
-    list.title = title;
+        setStates((state) => [
+          ...state,
+          {
+            board: boardObj
+          }
+        ]);
 
-    const newState = {
-      ...data,
-      lists: {
-        ...data.lists,
-        [listId]: list
-      }
-    };
-    setData(newState);
-  };
-
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId, type } = result;
-    console.log("destination", destination, "source", source, draggableId);
-
-    if (!destination) {
-      return;
+        //console.log("2\n" + JSON.stringify(state, null, 4));
+      });
+    } catch (error) {
+      console.log(TAG + "Error getting boards", error);
     }
-    if (type === "list") {
-      const newListIds = data.listIds;
-      newListIds.splice(source.index, 1);
-      newListIds.splice(destination.index, 0, draggableId);
-      return;
-    }
+  };
 
-    const sourceList = data.lists[source.droppableId];
-    const destinationList = data.lists[destination.droppableId];
-    const draggingCard = sourceList.cards.filter(
-      (card) => card.id === draggableId
-    )[0];
+  //getBoards();
 
-    if (source.droppableId === destination.droppableId) {
-      sourceList.cards.splice(source.index, 1);
-      destinationList.cards.splice(destination.index, 0, draggingCard);
-      const newSate = {
-        ...data,
-        lists: {
-          ...data.lists,
-          [sourceList.id]: destinationList
-        }
+  // Method to create a new board
+  const createNewBoard = async (board) => {
+    try {
+      console.log(TAG + "Adding new board");
+      // Push board to Firebase and retrieve ID
+      const newBoard = await addDoc(boardsRef, board);
+      const boardObj = {
+        id: newBoard.id,
+        ...board
       };
-      setData(newSate);
-    } else {
-      sourceList.cards.splice(source.index, 1);
-      destinationList.cards.splice(destination.index, 0, draggingCard);
 
-      const newState = {
-        ...data,
-        lists: {
-          ...data.lists,
-          [sourceList.id]: sourceList,
-          [destinationList.id]: destinationList
+      // Update board state with the new board.
+      setStates((state) => [
+        ...state,
+        {
+          board: boardObj
         }
-      };
-      setData(newState);
+      ]);
+    } catch (error) {
+      // If there's an error, output to console.
+      console.error(TAG + "Error creating new board: ", error);
     }
   };
+
+  // Render the page
   return (
-    <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="app" type="list" direction="horizontal">
-          {(provided) => (
-            <div
-              className={classes.root}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {data.listIds.map((listId, index) => {
-                const list = data.lists[listId];
-                return <List list={list} key={listId} index={index} />;
-              })}
-              <InputContainer type="list" />
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </StoreApi.Provider>
+    <div>
+      <Router>
+        <div>
+          <Routes>
+            <Route
+              path="/:userId/boards"
+              element={
+                <Home
+                  boards={state}
+                  createNewBoard={createNewBoard}
+                  getBoards={getBoards}
+                />
+              }
+            ></Route>
+            <Route path="/board/:boardId" element={<Board />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    </div>
   );
 }

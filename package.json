@@ -5,14 +5,16 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "4.11.2",
-    "@mui/styles": "5.4.2",
+    "@firebase/app": "0.7.17",
+    "@firebase/firestore": "3.4.5",
+    "firebase": "9.6.7",
+    "firebase-admin": "10.0.2",
+    "prop-types": "15.8.1",
     "react": "17.0.2",
-    "react-beautiful-dnd": "13.1.0",
     "react-dom": "17.0.2",
-    "react-scripts": "5.0.0",
-    "uuid": "8.3.2"
+    "react-location": "3.3.4",
+    "react-router-dom": "6.2.1",
+    "react-scripts": "5.0.0"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
