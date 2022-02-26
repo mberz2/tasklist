@@ -60,8 +60,6 @@ export default function App() {
     }
   };
 
-  //console.log("AFTER:\n" + JSON.stringify(state, null, 2));
-
   // Render the page
   return (
     <div>
