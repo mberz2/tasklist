@@ -7,8 +7,8 @@ import { useParams } from "react-router-dom";
 function Home(props) {
   let TAG = "[HOME] ";
   let params = useParams();
-  console.log(TAG + "Props\n" + JSON.stringify(props));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   // Update the state of the boards
   useEffect(() => {
@@ -20,8 +20,8 @@ function Home(props) {
       <p>User: {params.userId}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
-        {props.boards.map((key) => (
-          <BoardPreview key={key} board={key} />
+        {Object.keys(props.boards).map((key) => (
+          <BoardPreview key={key} board={props.boards[key]} />
         ))}
       </div>
     </div>

@@ -22,9 +22,9 @@ function Board(props) {
   let { state } = useLocation();
   let boardId = params.boardId;
 
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
-  //console.log(TAG + "State\n" + JSON.stringify(state));
-  //console.log(TAG + "Params\n" + JSON.stringify(params));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "State\n" + JSON.stringify(state));
+  console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
@@ -44,7 +44,7 @@ function Board(props) {
       const boardRef = doc(db, "boards", boardId);
       const boardSnap = await getDoc(boardRef);
 
-      const data = boardSnap.data().board;
+      const data = await boardSnap.data().board;
 
       setBoard({ ...board, id: board.id, ...data });
     } catch (error) {

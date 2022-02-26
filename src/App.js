@@ -12,27 +12,29 @@ export default function App() {
   let TAG = "[App.js] ";
 
   // getter/setter for boards array.
-  const [state, setStates] = useState([]);
+  const [state, setState] = useState([]);
 
   // Retrieves boards from the database
   const getBoards = async (userId) => {
     try {
       // Clear the states of the boards
-      setStates([]);
-
+      setState([]);
       const boards = await getDocs(boardsRef);
 
-      console.log(TAG + "Retrieved boards");
-      // Populate state from each Board
+      //Populate state from each Board
       boards.forEach((board) => {
-        const data = board.data();
-        setStates((state) => [
-          ...state,
-          {
-            id: board.id,
-            ...data
-          }
-        ]);
+        console.log("RETRIEVED\n" + JSON.stringify(board.data(), null, 2));
+        const data = board.data().board;
+
+        console.log("??: " + JSON.stringify(board, null, 2));
+
+        const boardObj = {
+          id: board.id,
+          ...data
+        };
+
+        console.log(TAG + "Pushing to state");
+        setState((prevState) => [...prevState, boardObj]);
       });
     } catch (error) {
       console.log(TAG + "Error getting boards", error);
@@ -43,22 +45,25 @@ export default function App() {
   const createNewBoard = async (board) => {
     try {
       console.log(TAG + "Adding new board");
-      // Push board to Firebase and retrieve ID
-      const newBoard = await addDoc(boardsRef, { board });
 
-      // Update board state with the new board.
-      setStates((state) => [
-        ...state,
-        {
-          id: newBoard.id,
-          ...board
-        }
-      ]);
+      console.log("INC Board:\n" + JSON.stringify(board, null, 2));
+      // Push board to Firebase and retrieve ID
+      const data = await addDoc(boardsRef, { board });
+
+      console.log("ID " + data.id);
+      const boardObj = {
+        id: data.id,
+        ...board
+      };
+
+      setState((prevState) => [...prevState, boardObj]);
     } catch (error) {
       // If there's an error, output to console.
       console.error(TAG + "Error creating new board: ", error);
     }
   };
+
+  //console.log("AFTER:\n" + JSON.stringify(state, null, 2));
 
   // Render the page
   return (
