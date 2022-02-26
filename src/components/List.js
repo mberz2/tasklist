@@ -11,6 +11,7 @@ import {
   addDoc,
   doc,
   getDoc,
+  updateDoc,
   getDocs,
   collection,
   query,
@@ -102,10 +103,29 @@ function List(props) {
     props.deleteList(listId);
   };
 
+  const updateList = async (e) => {
+    try {
+      console.log(TAG + "Updating list");
+      const listRef = doc(db, "lists", props.list.id);
+
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(listRef, {
+        "list.title": e.currentTarget.value
+      });
+    } catch (error) {
+      console.error("Error updating list: ", error);
+    }
+  };
+
   return (
     <div className="list">
       <div className="list-header">
-        <p>{props.list.title}</p>
+        <input
+          type="text"
+          name="boardTitle"
+          onChange={updateList}
+          defaultValue={props.list.title}
+        />
         <span onClick={deleteList}>&times;</span>
       </div>
 

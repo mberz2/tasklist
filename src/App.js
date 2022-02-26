@@ -11,7 +11,8 @@ import {
   collection,
   query,
   where,
-  orderBy
+  orderBy,
+  updateDoc
 } from "firebase/firestore";
 
 import "./styles/App.css";
@@ -139,6 +140,20 @@ export default function App() {
     }
   };
 
+  const updateBoard = async (boardId, newTitle) => {
+    try {
+      console.log(TAG + "Updating board");
+      const boardRef = doc(db, "boards", boardId);
+
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(boardRef, {
+        "board.title": newTitle
+      });
+    } catch (error) {
+      console.error("Error updating board: ", error);
+    }
+  };
+
   // Render the page
   return (
     <div>
@@ -158,7 +173,11 @@ export default function App() {
             <Route
               path="/board/:boardId"
               element={
-                <Board deleteBoard={deleteBoard} deleteList={deleteList} />
+                <Board
+                  deleteBoard={deleteBoard}
+                  deleteList={deleteList}
+                  updateBoard={updateBoard}
+                />
               }
             />
             <Route path="*" element={<PageNotFound />} />

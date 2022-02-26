@@ -120,13 +120,26 @@ function Board(props) {
     props.deleteBoard(boardId);
   };
 
+  const updateBoard = async (e) => {
+    const boardId = params.boardId;
+    const newTitle = e.currentTarget.value;
+    if (boardId && newTitle) {
+      props.updateBoard(boardId, newTitle);
+    }
+  };
+
   return (
     <div
       className="board-wrapper"
       style={{ backgroundColor: board.background }}
     >
       <div className="board-header">
-        <h3>Board Title: {board.title} </h3>
+        <input
+          type="text"
+          name="boardTitle"
+          onChange={updateBoard}
+          defaultValue={board.title}
+        />
         <button onClick={deleteBoard}>Delete Board</button>
       </div>
       <div className="lists-wrapper">
@@ -149,7 +162,8 @@ function Board(props) {
 
 Board.propTypes = {
   deleteList: PropTypes.func.isRequired,
-  deleteBoard: PropTypes.func.isRequired
+  deleteBoard: PropTypes.func.isRequired,
+  updateBoard: PropTypes.func.isRequired
 };
 
 export default Board;
