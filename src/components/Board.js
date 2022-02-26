@@ -22,9 +22,9 @@ function Board(props) {
   let { state } = useLocation();
   let boardId = params.boardId;
 
-  console.log(TAG + "Props\n" + JSON.stringify(props));
-  console.log(TAG + "State\n" + JSON.stringify(state));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "State\n" + JSON.stringify(state));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
@@ -34,6 +34,11 @@ function Board(props) {
     getBoard(boardId);
     getLists(boardId);
   }, []);
+
+  // Use effect for resetting text box.
+  useEffect(() => {
+    addBoardInput.current.value = "";
+  });
 
   // Method to get board data from Firebase
   const getBoard = async (boardId) => {
@@ -70,15 +75,13 @@ function Board(props) {
 
       lists.forEach((list) => {
         const data = list.data().list;
-        let id = list.id;
+        const listObj = {
+          id: list.id,
+          ...data
+        };
 
-        setLists((list) => [
-          ...list,
-          {
-            id: id,
-            ...data
-          }
-        ]);
+        console.log(TAG + "Pushing to state");
+        setLists((prevState) => [...prevState, listObj]);
       });
     } catch (error) {
       console.log(TAG + "Error getting lists", error);
@@ -99,20 +102,12 @@ function Board(props) {
 
       if (list.title && list.board) {
         console.log(TAG + "Adding new list");
-        await addDoc(listsRef, {
-          list
-        });
+        await addDoc(listsRef, { list });
 
         // Update list state with the new board.
         console.log(TAG + "Updating state...");
-        setLists((list) => [
-          ...list,
-          {
-            list: list
-          }
-        ]);
+        setLists((prevState) => [...prevState, list]);
       }
-      addBoardInput.current.value = "";
     } catch (error) {
       console.error(TAG + "Error creating new list: ", error);
     }

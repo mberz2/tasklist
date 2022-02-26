@@ -23,10 +23,8 @@ export default function App() {
 
       //Populate state from each Board
       boards.forEach((board) => {
-        console.log("RETRIEVED\n" + JSON.stringify(board.data(), null, 2));
+        //console.log("RETRIEVED\n" + JSON.stringify(board.data(), null, 2));
         const data = board.data().board;
-
-        console.log("??: " + JSON.stringify(board, null, 2));
 
         const boardObj = {
           id: board.id,
@@ -50,7 +48,6 @@ export default function App() {
       // Push board to Firebase and retrieve ID
       const data = await addDoc(boardsRef, { board });
 
-      console.log("ID " + data.id);
       const boardObj = {
         id: data.id,
         ...board

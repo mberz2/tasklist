@@ -12,7 +12,7 @@ function BoardPreview(props) {
   let { state } = useLocation();
   let params = useParams();
 
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
 

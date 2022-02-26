@@ -19,27 +19,39 @@ import {
 
 function List(props) {
   let TAG = "[List.js] ";
-  const [card, setCards] = useState({ currentCards: [] });
+  const [card, setCards] = useState([]);
   let nameInput = React.createRef();
   let params = useParams();
   let { state } = useLocation();
 
-  let listId = props.list.id;
-
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
-
   //console.log(TAG + "Props\n" + JSON.stringify(props));
+
   // Update the state of the cards
   useEffect(() => {
-    getCards(listId);
+    if (!props.list.id) {
+      console.log(TAG + "Waiting for list id...");
+    } else {
+      getCards(props.list.id);
+    }
   }, []);
 
+  // Use effect for resetting text box.
+  useEffect(() => {
+    nameInput.current.value = "";
+  });
+
   const getCards = async (listId) => {
+    if (!listId) {
+      console.error(TAG + "ListID is undefinied");
+    }
     try {
       //Clear the Cards before re-render
       setCards([]);
+
+      console.log(TAG + "Getting cards.");
 
       const cardQuery = query(
         collection(db, "cards"),
@@ -51,15 +63,13 @@ function List(props) {
 
       cards.forEach((card) => {
         const data = card.data().card;
-        let id = card.id;
+        const cardObj = {
+          id: card.id,
+          ...data
+        };
 
-        setCards((card) => [
-          ...card,
-          {
-            id: id,
-            ...data
-          }
-        ]);
+        console.log(TAG + "Pushing to state");
+        setCards((prevState) => [...prevState, cardObj]);
       });
     } catch (error) {
       console.error(TAG + "Error fetching cards", error);
@@ -78,12 +88,9 @@ function List(props) {
       };
       if (card.text && card.listId) {
         console.log(TAG + "Adding card.");
-        await addDoc(cardsRef, {
-          card
-        });
-      }
 
-      nameInput.current.value = "";
+        setCards((prevState) => [...prevState, ...card]);
+      }
     } catch (error) {
       console.error(TAG + "Error creating new card: ", error);
     }
@@ -93,9 +100,9 @@ function List(props) {
       <div className="list-header">
         <p>{props.list.title}</p>
       </div>
-      {/*       {Object.keys(props.list.cards).map((key) => (
-        <Card key={key} data={props.list.cards[key]} />
-      ))} */}
+      {Object.keys(card).map((key) => (
+        <Card key={card[key].id} data={card[key]} />
+      ))}
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
           type="text"
