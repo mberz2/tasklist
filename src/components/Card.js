@@ -4,15 +4,12 @@ import { useState, useEffect } from "react";
 import { db, cardsRef } from "../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import EditCardModal from "./EditCardModal";
+import TextareaAutosize from "react-autosize-textarea";
 
 function Card(props) {
   let TAG = "[Card.js] ";
 
   const [modal, setModal] = useState({ modalOpen: false });
-
-  useEffect(() => {
-    console.log(modal);
-  }, [modal]);
 
   const toggleModal = () => {
     setModal({ modalOpen: !modal.modalOpen });
@@ -33,12 +30,31 @@ function Card(props) {
   return (
     <React.Fragment>
       <div className="card">
+        <div className="card-labels">
+          {props.data.labels.map((label) => {
+            return (
+              <span
+                key={label}
+                style={{ background: label }}
+                className="label"
+              ></span>
+            );
+          })}
+        </div>
         <div className="card-body">
-          <p onClick={toggleModal}>{props.data.text}</p>
-          <span onClick={deleteCard}>&times;</span>
+          <TextareaAutosize
+            onClick={toggleModal}
+            readOnly
+            value={props.data.text}
+          ></TextareaAutosize>
+          <span onClick={this.deleteCard}>&times;</span>
         </div>
       </div>
-      <EditCardModal modalOpen={modal.modalOpen} toggleModal={toggleModal} />
+      <EditCardModal
+        modalOpen={modal.modalOpen}
+        toggleModal={toggleModal}
+        cardData={props.data}
+      />
     </React.Fragment>
   );
 }

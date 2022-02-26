@@ -202,6 +202,12 @@ header a {
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
+  padding: 2px;
+  border: 0.5px solid lightgoldenrodyellow;
+}
+
+.card-body > *:hover {
+  cursor: pointer;
 }
 
 .card-body textarea {
