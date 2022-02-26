@@ -1,10 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import { db, cardsRef } from "../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
+import EditCardModal from "./EditCardModal";
 
 function Card(props) {
   let TAG = "[Card.js] ";
+
+  const [modal, setModal] = useState({ modalOpen: false });
+
+  useEffect(() => {
+    console.log(modal);
+  }, [modal]);
+
+  const toggleModal = () => {
+    setModal({ modalOpen: !modal.modalOpen });
+  };
 
   const deleteCard = async (e) => {
     try {
@@ -19,12 +31,15 @@ function Card(props) {
     }
   };
   return (
-    <div className="card">
-      <div className="card-body">
-        <p>{props.data.text}</p>
-        <span onClick={deleteCard}>&times;</span>
+    <React.Fragment>
+      <div className="card">
+        <div className="card-body">
+          <p onClick={toggleModal}>{props.data.text}</p>
+          <span onClick={deleteCard}>&times;</span>
+        </div>
       </div>
-    </div>
+      <EditCardModal modalOpen={modal.modalOpen} toggleModal={toggleModal} />
+    </React.Fragment>
   );
 }
 
