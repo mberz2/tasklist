@@ -34,11 +34,7 @@ function List(props) {
 
   // Update the state of the cards
   useEffect(() => {
-    if (!props.list.id) {
-      console.log(TAG + "Waiting for list id...");
-    } else {
-      getCards(props.list.id);
-    }
+    getCards(props.list.id);
   }, []);
 
   // Use effect for resetting text box.
@@ -120,7 +116,7 @@ function List(props) {
       };
       if (card.text && card.listId) {
         console.log(TAG + "Adding card.");
-
+        await addDoc(cardsRef, { card });
         setCards((prevState) => [...prevState, card]);
       }
     } catch (error) {
