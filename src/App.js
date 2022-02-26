@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { boardsRef } from "./firebase";
-import { addDoc, getDocs } from "firebase/firestore";
+import { db, boardsRef } from "./firebase";
+import {
+  addDoc,
+  doc,
+  getDoc,
+  getDocFromCache,
+  getDocs,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  orderBy
+} from "firebase/firestore";
 
 import "./styles/App.css";
 import Board from "./components/Board";
@@ -23,7 +34,6 @@ export default function App() {
 
       //Populate state from each Board
       boards.forEach((board) => {
-        //console.log("RETRIEVED\n" + JSON.stringify(board.data(), null, 2));
         const data = board.data().board;
 
         const boardObj = {
@@ -60,6 +70,75 @@ export default function App() {
     }
   };
 
+  const deleteList = async (listId) => {
+    try {
+      console.log(TAG + "Deleting :" + listId);
+      console.log(TAG + "Getting cards. " + listId);
+
+      const cardQuery = query(
+        collection(db, "cards"),
+        where("card.listId", "==", listId)
+      );
+
+      const cards = await getDocs(cardQuery);
+
+      await cards.forEach((card) => {
+        console.log(card.id);
+        deleteDoc(doc(db, "cards", card.id));
+      });
+
+      console.log(TAG + "Deletion card complete.");
+      await deleteDoc(doc(db, "lists", listId));
+      console.log(TAG + "Deletion complete.");
+    } catch (error) {
+      console.log(TAG + "Error deleting list.", error);
+    }
+  };
+
+  const deleteBoard = async (boardId) => {
+    try {
+      //Get/Delete the lists and cards
+      const listQuery = query(
+        collection(db, "lists"),
+        where("list.board", "==", boardId)
+      );
+
+      const lists = await getDocs(listQuery);
+
+      //Check if query is empty
+      if (lists.docs.length !== 0) {
+        lists.forEach((list) => {
+          deleteList(list.ref.id);
+        });
+      }
+
+      //Get/delete the board
+      const board = doc(db, "boards", boardId);
+      const docSnap = await getDoc(board);
+
+      //Check for data returned
+      if (docSnap.exists()) {
+        console.log(TAG + "Document data:", docSnap.data());
+        setState((prevState) =>
+          // Filter out the item with the matching index
+          prevState.filter((board) => board.id !== boardId)
+        );
+      } else {
+        // doc.data() will be undefined in this case
+        console.log(TAG + "No such document!");
+      }
+
+      //Delete from firebase
+      console.log(TAG + "Deleting board.");
+      await deleteDoc(doc(db, "boards", boardId));
+      console.log(TAG + "Deletion complete.");
+
+      //console.log(JSON.stringify(board, null, 2));
+    } catch (error) {
+      console.error(TAG + "Error deleting board.", error);
+    }
+  };
+
   // Render the page
   return (
     <div>
@@ -76,7 +155,12 @@ export default function App() {
                 />
               }
             ></Route>
-            <Route path="/board/:boardId" element={<Board />} />
+            <Route
+              path="/board/:boardId"
+              element={
+                <Board deleteBoard={deleteBoard} deleteList={deleteList} />
+              }
+            />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>

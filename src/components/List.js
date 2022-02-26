@@ -44,35 +44,6 @@ function List(props) {
     nameInput.current.value = "";
   });
 
-  const deleteList = async (e) => {
-    try {
-      e.preventDefault();
-      console.log(TAG + "Deleting :" + props.list.id);
-      const listId = props.list.id;
-
-      console.log(TAG + "Getting cards. " + listId);
-
-      const cardQuery = query(
-        collection(db, "cards"),
-        where("card.listId", "==", listId)
-      );
-
-      const cards = await getDocs(cardQuery);
-
-      console.log(card);
-      await card.forEach((card) => {
-        console.log(card.id);
-        deleteDoc(doc(db, "cards", card.id));
-      });
-
-      console.log(TAG + "Deletion card complete.");
-      const list = await deleteDoc(doc(db, "lists", listId));
-      console.log(TAG + "Deletion complete.");
-    } catch (error) {
-      console.log(TAG + "Error deleting list.", error);
-    }
-  };
-
   const getCards = async (listId) => {
     if (!listId) {
       console.error(TAG + "ListID is undefinied");
@@ -125,6 +96,12 @@ function List(props) {
       console.error(TAG + "Error creating new card: ", error);
     }
   };
+
+  const deleteList = () => {
+    const listId = props.list.id;
+    props.deleteList(listId);
+  };
+
   return (
     <div className="list">
       <div className="list-header">
@@ -147,8 +124,9 @@ function List(props) {
   );
 }
 
-/* List.propTypes = {
-  List: PropTypes.object.isRequired
-}; */
+List.propTypes = {
+  list: PropTypes.object.isRequired,
+  deleteList: PropTypes.func.isRequired
+};
 
 export default List;

@@ -3,6 +3,8 @@ import List from "./List";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+import uuid from "react-uuid";
 
 import { db, listsRef } from "../firebase";
 import {
@@ -22,9 +24,9 @@ function Board(props) {
   let { state } = useLocation();
   let boardId = params.boardId;
 
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
-  //console.log(TAG + "State\n" + JSON.stringify(state));
-  //console.log(TAG + "Params\n" + JSON.stringify(params));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "State\n" + JSON.stringify(state));
+  console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
@@ -113,6 +115,11 @@ function Board(props) {
     }
   };
 
+  const deleteBoard = async () => {
+    const boardId = params.boardId;
+    props.deleteBoard(boardId);
+  };
+
   return (
     <div
       className="board-wrapper"
@@ -120,11 +127,11 @@ function Board(props) {
     >
       <div className="board-header">
         <h3>Board Title: {board.title} </h3>
-        <button>Delete Board</button>
+        <button onClick={deleteBoard}>Delete Board</button>
       </div>
       <div className="lists-wrapper">
         {Object.keys(list).map((key) => (
-          <List key={list[key].id} list={list[key]} />
+          <List key={uuid()} list={list[key]} deleteList={props.deleteList} />
         ))}
       </div>
 
@@ -139,5 +146,10 @@ function Board(props) {
     </div>
   );
 }
+
+Board.propTypes = {
+  deleteList: PropTypes.func.isRequired,
+  deleteBoard: PropTypes.func.isRequired
+};
 
 export default Board;
