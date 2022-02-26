@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function CreateBoardForm(props) {
-  let TAG = "[CBF] ";
+  let TAG = "[CreateBoardForm.js] ";
   let params = useParams();
   console.log(TAG + "Props\n" + JSON.stringify(props));
   console.log(TAG + "Params\n" + JSON.stringify(params));

@@ -5,7 +5,7 @@ import CreateBoardForm from "../CreateBoardForm";
 import { useParams } from "react-router-dom";
 
 function Home(props) {
-  let TAG = "[HOME] ";
+  let TAG = "[Home.js] ";
   let params = useParams();
   //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "Params\n" + JSON.stringify(params));

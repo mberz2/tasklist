@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 function BoardPreview(props) {
   let navigate = useNavigate();
-  let TAG = "[BP} ";
+  let TAG = "[BoardPreview.js] ";
 
   let { state } = useLocation();
   let params = useParams();
