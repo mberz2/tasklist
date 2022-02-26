@@ -1,9 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function CreateBoardForm(props) {
-  let TAG = "[CBF] ";
+  let TAG = "[CreateBoardForm.js] ";
+  let params = useParams();
+  console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "Params\n" + JSON.stringify(params));
+
   //Default state
   const [state, setState] = useState({ title: "", background: "" });
   let titleInput = React.createRef();
@@ -23,7 +28,7 @@ function CreateBoardForm(props) {
       title: state.title,
       background: state.background,
       createdAt: new Date(),
-      user: "userId"
+      user: params.userId
     };
     if (state.title && state.background) {
       console.log("Creating board");

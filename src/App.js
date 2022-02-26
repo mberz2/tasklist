@@ -5,7 +5,6 @@ import { addDoc, getDocs } from "firebase/firestore";
 
 import "./styles/App.css";
 import Board from "./components/Board";
-import data from "./sampleData";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 
@@ -13,63 +12,55 @@ export default function App() {
   let TAG = "[App.js] ";
 
   // getter/setter for boards array.
-  const [state, setStates] = useState([]);
+  const [state, setState] = useState([]);
 
+  // Retrieves boards from the database
   const getBoards = async (userId) => {
     try {
       // Clear the states of the boards
-      setStates([]);
+      setState([]);
+      const boards = await getDocs(boardsRef);
 
-      const FSboards = await getDocs(boardsRef);
+      //Populate state from each Board
+      boards.forEach((board) => {
+        //console.log("RETRIEVED\n" + JSON.stringify(board.data(), null, 2));
+        const data = board.data().board;
 
-      console.log(TAG + "Retrieved boards");
-      // Populate state from each Board
-      FSboards.forEach((board) => {
-        const data = board.data();
         const boardObj = {
           id: board.id,
           ...data
         };
 
-        setStates((state) => [
-          ...state,
-          {
-            board: boardObj
-          }
-        ]);
-
-        //console.log("2\n" + JSON.stringify(state, null, 4));
+        console.log(TAG + "Pushing to state");
+        setState((prevState) => [...prevState, boardObj]);
       });
     } catch (error) {
       console.log(TAG + "Error getting boards", error);
     }
   };
 
-  //getBoards();
-
   // Method to create a new board
   const createNewBoard = async (board) => {
     try {
       console.log(TAG + "Adding new board");
+
+      console.log("INC Board:\n" + JSON.stringify(board, null, 2));
       // Push board to Firebase and retrieve ID
-      const newBoard = await addDoc(boardsRef, board);
+      const data = await addDoc(boardsRef, { board });
+
       const boardObj = {
-        id: newBoard.id,
+        id: data.id,
         ...board
       };
 
-      // Update board state with the new board.
-      setStates((state) => [
-        ...state,
-        {
-          board: boardObj
-        }
-      ]);
+      setState((prevState) => [...prevState, boardObj]);
     } catch (error) {
       // If there's an error, output to console.
       console.error(TAG + "Error creating new board: ", error);
     }
   };
+
+  //console.log("AFTER:\n" + JSON.stringify(state, null, 2));
 
   // Render the page
   return (

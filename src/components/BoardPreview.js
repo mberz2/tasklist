@@ -1,14 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function BoardPreview(props) {
   let navigate = useNavigate();
+  let TAG = "[BoardPreview.js] ";
 
-  console.log("[BP] Props\n" + JSON.stringify(props));
+  let { state } = useLocation();
+  let params = useParams();
+
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "State\n" + JSON.stringify(state));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const goToBoard = () => {
-    const boardId = props.board.board.id;
+    const boardId = props.board.id;
     navigate(`/board/${boardId}`, {});
   };
 
@@ -17,9 +26,9 @@ function BoardPreview(props) {
       <ul
         className="board-preview-item"
         onClick={goToBoard}
-        style={{ backgroundColor: props.board.board.background }}
+        style={{ backgroundColor: props.board.background }}
       >
-        <li>{props.board.board.title}</li>
+        <li>{props.board.title}</li>
       </ul>
     </div>
   );
