@@ -1,10 +1,10 @@
-import React from "react";
-import List from "./List";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+
 import uuid from "react-uuid";
+import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import List from "./List";
 
 import { db, listsRef } from "../firebase";
 import {
@@ -18,18 +18,23 @@ import {
   orderBy
 } from "firebase/firestore";
 
-function Board(props) {
+export default function Board(props) {
+  // Console logging for debugging
   let TAG = "[Board.js] ";
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "State\n" + JSON.stringify(state));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
+
+  // Capture params and boardId from URL
   let params = useParams();
-  let { state } = useLocation();
   let boardId = params.boardId;
 
-  console.log(TAG + "Props\n" + JSON.stringify(props));
-  console.log(TAG + "State\n" + JSON.stringify(state));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
-
+  // Set state objects for lists and boards on the page
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
+
+  // Board input reference
+  let addBoardInput = React.createRef();
 
   // Update the state of the lists
   useEffect(() => {
@@ -46,13 +51,14 @@ function Board(props) {
   const getBoard = async (boardId) => {
     try {
       console.log(TAG + "Retrieving board information...");
+      // Clear board state before rendering
       setBoard({});
 
+      // Set a firebase reference, await snapshot,
+      // Capture data from snapshot and add to state
       const boardRef = doc(db, "boards", boardId);
       const boardSnap = await getDoc(boardRef);
-
       const data = await boardSnap.data().board;
-
       setBoard({ ...board, id: board.id, ...data });
     } catch (error) {
       console.log(TAG + "Error getting boards", error);
@@ -64,17 +70,19 @@ function Board(props) {
     try {
       console.log(TAG + "Retrieving lists");
 
-      //Clear the Lists before re-render
+      // Clear the Lists before re-render
       setLists([]);
 
+      // Construct firebase query and await response
       const listQuery = query(
         collection(db, "lists"),
         where("list.board", "==", boardId),
         orderBy("list.createdAt")
       );
-
       const lists = await getDocs(listQuery);
 
+      // Iterate through each list in the response
+      // capture the ID and save to object/
       lists.forEach((list) => {
         const data = list.data().list;
         const listObj = {
@@ -82,6 +90,7 @@ function Board(props) {
           ...data
         };
 
+        // Push new object to state
         console.log(TAG + "Pushing to state");
         setLists((prevState) => [...prevState, listObj]);
       });
@@ -90,18 +99,19 @@ function Board(props) {
     }
   };
 
-  let addBoardInput = React.createRef();
-
   // Method to create a new List
   const createNewList = async (e) => {
     try {
       e.preventDefault();
+
+      // Populate a list object
       const list = {
         title: addBoardInput.current.value,
         board: params.boardId,
         createdAt: new Date()
       };
 
+      // Check that a title and boardId are present
       if (list.title && list.board) {
         console.log(TAG + "Adding new list");
         await addDoc(listsRef, { list });
@@ -115,12 +125,17 @@ function Board(props) {
     }
   };
 
+  // Method to delete a board
   const deleteBoard = async () => {
+    // Capture id and pass to prop method
     const boardId = params.boardId;
     props.deleteBoard(boardId);
   };
 
+  // Method to update a board
   const updateBoard = async (e) => {
+    // Capture boardId and title value and pass
+    // to prop method.
     const boardId = params.boardId;
     const newTitle = e.currentTarget.value;
     if (boardId && newTitle) {
@@ -128,6 +143,7 @@ function Board(props) {
     }
   };
 
+  // Render the page
   return (
     <div
       className="board-wrapper"
@@ -160,10 +176,9 @@ function Board(props) {
   );
 }
 
+//Board proptype validation
 Board.propTypes = {
   deleteList: PropTypes.func.isRequired,
   deleteBoard: PropTypes.func.isRequired,
   updateBoard: PropTypes.func.isRequired
 };
-
-export default Board;

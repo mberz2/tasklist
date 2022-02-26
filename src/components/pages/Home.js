@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import BoardPreview from "../BoardPreview";
 import PropTypes from "prop-types";
 import CreateBoardForm from "../CreateBoardForm";
 import { useParams } from "react-router-dom";
 
-function Home(props) {
-  let TAG = "[Home.js] ";
-  let params = useParams();
+export default function Home(props) {
+  // Console logging for debugging
+  //let TAG = "[Home.js] ";
   //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
+
+  // Capture params
+  let params = useParams();
 
   // Update the state of the boards
   useEffect(() => {
     props.getBoards();
   }, []);
 
+  // Render the page
   return (
     <div>
       <p>User: {params.userId}</p>
@@ -28,8 +32,7 @@ function Home(props) {
   );
 }
 
-export default Home;
-
+// PropType Validation
 Home.propTypes = {
   getBoards: PropTypes.func.isRequired,
   boards: PropTypes.array.isRequired,
