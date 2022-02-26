@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import uuid from "react-uuid";
 
 import { db, listsRef, cardsRef } from "../firebase";
 import {
@@ -19,6 +20,7 @@ import {
   ref,
   deleteObject
 } from "firebase/firestore";
+import { UserImportBuilder } from "firebase-admin/lib/auth/user-import-builder";
 
 function List(props) {
   let TAG = "[List.js] ";
@@ -129,8 +131,9 @@ function List(props) {
         <p>{props.list.title}</p>
         <span onClick={deleteList}>&times;</span>
       </div>
+
       {Object.keys(card).map((key) => (
-        <Card key={card[key].id} data={card[key]} />
+        <Card key={uuid()} data={card[key]} />
       ))}
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
