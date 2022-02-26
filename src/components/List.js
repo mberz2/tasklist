@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { db, cardsRef } from "../firebase";
+import { db, listsRef, cardsRef } from "../firebase";
 import {
   addDoc,
   doc,
@@ -14,7 +14,10 @@ import {
   collection,
   query,
   where,
-  orderBy
+  orderBy,
+  deleteDoc,
+  ref,
+  deleteObject
 } from "firebase/firestore";
 
 function List(props) {
@@ -42,6 +45,35 @@ function List(props) {
   useEffect(() => {
     nameInput.current.value = "";
   });
+
+  const deleteList = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(TAG + "Deleting :" + props.list.id);
+      const listId = props.list.id;
+
+      console.log(TAG + "Getting cards. " + listId);
+
+      const cardQuery = query(
+        collection(db, "cards"),
+        where("card.listId", "==", listId)
+      );
+
+      const cards = await getDocs(cardQuery);
+
+      console.log(card);
+      await card.forEach((card) => {
+        console.log(card.id);
+        deleteDoc(doc(db, "cards", card.id));
+      });
+
+      console.log(TAG + "Deletion card complete.");
+      const list = await deleteDoc(doc(db, "lists", listId));
+      console.log(TAG + "Deletion complete.");
+    } catch (error) {
+      console.log(TAG + "Error deleting list.", error);
+    }
+  };
 
   const getCards = async (listId) => {
     if (!listId) {
@@ -89,7 +121,7 @@ function List(props) {
       if (card.text && card.listId) {
         console.log(TAG + "Adding card.");
 
-        setCards((prevState) => [...prevState, ...card]);
+        setCards((prevState) => [...prevState, card]);
       }
     } catch (error) {
       console.error(TAG + "Error creating new card: ", error);
@@ -99,6 +131,7 @@ function List(props) {
     <div className="list">
       <div className="list-header">
         <p>{props.list.title}</p>
+        <span onClick={deleteList}>&times;</span>
       </div>
       {Object.keys(card).map((key) => (
         <Card key={card[key].id} data={card[key]} />

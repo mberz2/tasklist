@@ -1,12 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { cardsRef } from "../firebase";
+import { db, cardsRef } from "../firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 
 function Card(props) {
   let TAG = "[Card.js] ";
 
   const deleteCard = async (e) => {
     try {
+      e.preventDefault();
+      console.log(TAG + "Deleting :" + props.data.id);
+      const cardId = props.data.id;
+      const card = await deleteDoc(doc(db, "cards", cardId));
+
+      console.log(TAG + "Deletion complete.");
     } catch (error) {
       console.log(TAG + "Error deleting card", error);
     }
