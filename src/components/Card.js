@@ -47,7 +47,7 @@ function Card(props) {
             readOnly
             value={props.data.text}
           ></TextareaAutosize>
-          <span onClick={this.deleteCard}>&times;</span>
+          <span onClick={deleteCard}>&times;</span>
         </div>
       </div>
       <EditCardModal
