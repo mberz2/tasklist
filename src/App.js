@@ -23,6 +23,9 @@ import PageNotFound from "./components/pages/PageNotFound";
 export default function App() {
   let TAG = "[App.js] ";
 
+  // Use effect for resetting text box.
+  useEffect(() => {});
+
   // getter/setter for boards array.
   const [state, setState] = useState([]);
 
@@ -73,8 +76,8 @@ export default function App() {
 
   const deleteList = async (listId) => {
     try {
-      console.log(TAG + "Deleting :" + listId);
-      console.log(TAG + "Getting cards. " + listId);
+      console.log(TAG + "Deleting ID:" + listId);
+      console.log(TAG + "Getting cards from " + listId);
 
       const cardQuery = query(
         collection(db, "cards"),

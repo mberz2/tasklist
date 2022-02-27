@@ -6,84 +6,71 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 
-import { db, listsRef, cardsRef } from "../firebase";
+import { db, cardsRef } from "../firebase";
 import {
   addDoc,
   doc,
-  getDoc,
   updateDoc,
-  getDocs,
   collection,
   query,
   where,
   orderBy,
-  deleteDoc,
-  ref,
-  deleteObject
+  onSnapshot
 } from "firebase/firestore";
-import { UserImportBuilder } from "firebase-admin/lib/auth/user-import-builder";
 
-function List(props) {
+export default function List(props) {
   let TAG = "[List.js] ";
   const [card, setCards] = useState([]);
-  let nameInput = React.createRef();
   let params = useParams();
   let { state } = useLocation();
 
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
 
-  // Update the state of the cards
+  //To-Do find a more efficient way
   useEffect(() => {
-    getCards(props.list.id);
-  }, []);
-
-  // Use effect for resetting text box.
-  useEffect(() => {
-    nameInput.current.value = "";
+    // Use effect for reset cardInput on re-render
+    cardInput.current.value = "";
   });
 
-  const getCards = async (listId) => {
-    if (!listId) {
-      console.error(TAG + "ListID is undefinied");
-    }
-    try {
-      //Clear the Cards before re-render
-      setCards([]);
+  useEffect(() => {
+    // Base query to cards
+    const q = query(
+      collection(db, "cards"),
+      where("card.listId", "==", props.list.id),
+      orderBy("card.createdAt")
+    );
 
-      console.log(TAG + "Getting cards.");
+    // Update the cards in real time
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      try {
+        const postData = [];
+        snapshot.forEach((doc) =>
+          postData.push({ id: doc.id, ...doc.data().card })
+        );
+        setCards(postData);
+      } catch (error) {
+        console.error(TAG + "Error fetching cards", error);
+      }
+    });
 
-      const cardQuery = query(
-        collection(db, "cards"),
-        where("card.listId", "==", listId),
-        orderBy("card.createdAt")
-      );
+    return () => {
+      console.log("unsubscribe");
+      unsubscribe();
+    };
+  }, []);
 
-      const cards = await getDocs(cardQuery);
+  // Reference for cardInput
+  let cardInput = React.createRef();
 
-      cards.forEach((card) => {
-        const data = card.data().card;
-        const cardObj = {
-          id: card.id,
-          ...data
-        };
-
-        console.log(TAG + "Pushing to state");
-        setCards((prevState) => [...prevState, cardObj]);
-      });
-    } catch (error) {
-      console.error(TAG + "Error fetching cards", error);
-    }
-  };
-
+  // Method for creating a new card
   const createNewCard = async (e) => {
     console.log(TAG + "Creating new card.");
     try {
       e.preventDefault();
       const card = {
-        text: nameInput.current.value,
+        text: cardInput.current.value,
         listId: props.list.id,
         labels: [],
         createdAt: new Date()
@@ -91,24 +78,19 @@ function List(props) {
       if (card.text && card.listId) {
         console.log(TAG + "Adding card.");
         await addDoc(cardsRef, { card });
-        setCards((prevState) => [...prevState, card]);
+        //setCards((prevState) => [...prevState, card]);
       }
     } catch (error) {
       console.error(TAG + "Error creating new card: ", error);
     }
   };
 
-  const deleteList = () => {
-    const listId = props.list.id;
-    props.deleteList(listId);
-  };
-
+  // Method for updating a list
   const updateList = async (e) => {
     try {
       console.log(TAG + "Updating list");
       const listRef = doc(db, "lists", props.list.id);
 
-      // Set the "capital" field of the city 'DC'
       await updateDoc(listRef, {
         "list.title": e.currentTarget.value
       });
@@ -117,6 +99,13 @@ function List(props) {
     }
   };
 
+  // Method for deleting a list, passes Id up
+  const deleteList = () => {
+    const listId = props.list.id;
+    props.deleteList(listId);
+  };
+
+  // Render the page
   return (
     <div className="list">
       <div className="list-header">
@@ -135,7 +124,7 @@ function List(props) {
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
           type="text"
-          ref={nameInput}
+          ref={cardInput}
           name="name"
           placeholder=" + New Card"
         />
@@ -148,5 +137,3 @@ List.propTypes = {
   list: PropTypes.object.isRequired,
   deleteList: PropTypes.func.isRequired
 };
-
-export default List;
