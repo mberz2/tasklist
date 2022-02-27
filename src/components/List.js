@@ -1,8 +1,6 @@
 import React from "react";
 import Card from "./Card";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 

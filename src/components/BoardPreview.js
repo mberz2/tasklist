@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 function BoardPreview(props) {
   let TAG = "[BoardPreview.js] ";
