@@ -1,7 +1,8 @@
 import React from "react";
 import List from "./List";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 
@@ -21,22 +22,23 @@ function Board(props) {
   let TAG = "[Board.js] ";
   let params = useParams();
   let boardId = params.boardId;
+  let navigate = useNavigate();
 
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
-  //console.log(TAG + "Params\n" + JSON.stringify(params));
+  console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
 
   // Update the state of the board when the page renders
   useEffect(() => {
-    getBoard(boardId);
-  }, []);
-
-  useEffect(() => {
     // Resets the listInput on re-render
     listInput.current.value = "";
+  });
+
+  useEffect(() => {
+    getBoard(boardId);
 
     // Base query for the lists
     const q = query(
@@ -73,7 +75,7 @@ function Board(props) {
 
       setBoard({ ...board, id: board.id, ...data });
     } catch (error) {
-      console.log(TAG + "Error getting boards", error);
+      console.log(TAG + "Error getting board", error);
     }
   };
 
@@ -98,12 +100,6 @@ function Board(props) {
     }
   };
 
-  // Sends the board info to caller for board delete
-  const deleteBoard = async () => {
-    const boardId = params.boardId;
-    props.deleteBoard(boardId);
-  };
-
   // Sends the board info to caller for board updates
   const updateBoard = async (e) => {
     const boardId = params.boardId;
@@ -126,7 +122,7 @@ function Board(props) {
           onChange={updateBoard}
           defaultValue={board.title}
         />
-        <button onClick={deleteBoard}>Delete Board</button>
+        {/*         <button onClick={deleteBoard}>Delete Board</button> */}
       </div>
       <div className="lists-wrapper">
         {Object.keys(list).map((key) => (
@@ -148,7 +144,6 @@ function Board(props) {
 
 Board.propTypes = {
   deleteList: PropTypes.func.isRequired,
-  deleteBoard: PropTypes.func.isRequired,
   updateBoard: PropTypes.func.isRequired
 };
 

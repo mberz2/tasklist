@@ -20,7 +20,7 @@ function Card(props) {
       e.preventDefault();
       console.log(TAG + "Deleting :" + props.data.id);
       const cardId = props.data.id;
-      const card = await deleteDoc(doc(db, "cards", cardId));
+      await deleteDoc(doc(db, "cards", cardId));
 
       console.log(TAG + "Deletion complete.");
     } catch (error) {

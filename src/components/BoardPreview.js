@@ -1,28 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router";
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 function BoardPreview(props) {
-  let navigate = useNavigate();
   let TAG = "[BoardPreview.js] ";
+  console.log(TAG + "Props\n" + JSON.stringify(props));
 
-  let { state } = useLocation();
-  let params = useParams();
-
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
-  //console.log(TAG + "State\n" + JSON.stringify(state));
-  //console.log(TAG + "Params\n" + JSON.stringify(params));
+  let navigate = useNavigate();
 
   const goToBoard = () => {
     const boardId = props.board.id;
     navigate(`/board/${boardId}`, {});
   };
 
+  // Sends the board info to caller for board delete
+  const deleteBoard = async () => {
+    const boardId = props.board.id;
+    props.deleteBoard(boardId);
+  };
+
   return (
-    <div>
+    <div className="board-preview-container">
       <ul
         className="board-preview-item"
         onClick={goToBoard}
@@ -30,12 +30,14 @@ function BoardPreview(props) {
       >
         <li>{props.board.title}</li>
       </ul>
+      <button onClick={deleteBoard}>Delete Board</button>
     </div>
   );
 }
 
 BoardPreview.propTypes = {
-  board: PropTypes.object.isRequired
+  board: PropTypes.object.isRequired,
+  deleteBoard: PropTypes.func.isRequired
 };
 
 export default BoardPreview;

@@ -21,8 +21,6 @@ import {
 export default function List(props) {
   let TAG = "[List.js] ";
   const [card, setCards] = useState([]);
-  let params = useParams();
-  let { state } = useLocation();
 
   //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
@@ -117,7 +115,6 @@ export default function List(props) {
         />
         <span onClick={deleteList}>&times;</span>
       </div>
-
       {Object.keys(card).map((key) => (
         <Card key={uuid()} data={card[key]} />
       ))}

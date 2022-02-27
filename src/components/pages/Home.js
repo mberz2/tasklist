@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 function Home(props) {
   let TAG = "[Home.js] ";
   let params = useParams();
-  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   // Update the state of the boards
@@ -21,7 +21,11 @@ function Home(props) {
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
         {Object.keys(props.boards).map((key) => (
-          <BoardPreview key={key} board={props.boards[key]} />
+          <BoardPreview
+            key={key}
+            board={props.boards[key]}
+            deleteBoard={props.deleteBoard}
+          />
         ))}
       </div>
     </div>

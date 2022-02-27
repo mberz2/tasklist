@@ -100,6 +100,7 @@ export default function App() {
   };
 
   const deleteBoard = async (boardId) => {
+    console.log(boardId);
     try {
       //Get/Delete the lists and cards
       const listQuery = query(
@@ -169,6 +170,7 @@ export default function App() {
                 <Home
                   boards={state}
                   createNewBoard={createNewBoard}
+                  deleteBoard={deleteBoard}
                   getBoards={getBoards}
                 />
               }
