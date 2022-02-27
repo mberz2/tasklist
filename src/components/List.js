@@ -1,8 +1,6 @@
 import React from "react";
 import Card from "./Card";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 
@@ -10,29 +8,19 @@ import { db, listsRef, cardsRef } from "../firebase";
 import {
   addDoc,
   doc,
-  getDoc,
   updateDoc,
-  getDocs,
+  onSnapshot,
   collection,
   query,
   where,
-  orderBy,
-  deleteDoc,
-  ref,
-  deleteObject
+  orderBy
 } from "firebase/firestore";
-import { UserImportBuilder } from "firebase-admin/lib/auth/user-import-builder";
 
 function List(props) {
   let TAG = "[List.js] ";
-  const [card, setCards] = useState([]);
-  let nameInput = React.createRef();
-  let params = useParams();
-  let { state } = useLocation();
+  const [card, setCards] = useState({ currentCards: [] });
 
   console.log(TAG + "Props\n" + JSON.stringify(props));
-  //console.log(TAG + "State\n" + JSON.stringify(state));
-  //console.log(TAG + "Params\n" + JSON.stringify(params));
   //console.log(TAG + "Props\n" + JSON.stringify(props));
 
   // Update the state of the cards
@@ -40,81 +28,93 @@ function List(props) {
     getCards(props.list.id);
   }, []);
 
-  // Use effect for resetting text box.
-  useEffect(() => {
-    nameInput.current.value = "";
-  });
-
   const getCards = async (listId) => {
-    if (!listId) {
-      console.error(TAG + "ListID is undefinied");
-    }
     try {
-      //Clear the Cards before re-render
-      setCards([]);
+      // Clear the Cards before re-render
+      // setCards([]);
 
       console.log(TAG + "Getting cards.");
 
+      // Construct firebase query and await response
       const cardQuery = query(
         collection(db, "cards"),
         where("card.listId", "==", listId),
         orderBy("card.createdAt")
       );
 
-      const cards = await getDocs(cardQuery);
+      onSnapshot(cardQuery, (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
+          //console.log(JSON.stringify(change.doc.data(), null, 2));
 
-      cards.forEach((card) => {
-        const data = card.data().card;
-        const cardObj = {
-          id: card.id,
-          ...data
-        };
-
-        console.log(TAG + "Pushing to state");
-        setCards((prevState) => [...prevState, cardObj]);
+          const doc = change.doc;
+          const cardObj = {
+            id: doc.id,
+            text: doc.data().card.text,
+            labels: doc.data().card.labels
+          };
+          if (change.type === "added") {
+            setCards({ currentCards: [...card.currentCards, cardObj] });
+          }
+          if (change.type === "removed") {
+            this.setState({
+              currentCards: [
+                ...card.currentCards.filter((card) => {
+                  return card.id !== change.doc.id;
+                })
+              ]
+            });
+          }
+          if (change.type === "modified") {
+            const index = card.currentCards.findIndex((item) => {
+              return item.id === change.doc.id;
+            });
+            const cards = [...card.currentCards];
+            cards[index] = card;
+            this.setState({ currentCards: cards });
+          }
+        });
       });
     } catch (error) {
-      console.error(TAG + "Error fetching cards", error);
+      console.error("Error fetching cards: ", error);
     }
   };
 
-  const createNewCard = async (e) => {
-    console.log(TAG + "Creating new card.");
+  let nameInput = React.createRef();
+  const createNewCard = async (e, userId) => {
     try {
       e.preventDefault();
       const card = {
         text: nameInput.current.value,
         listId: props.list.id,
         labels: [],
-        createdAt: new Date()
+        createdAt: new Date(),
+        user: userId
       };
       if (card.text && card.listId) {
         console.log(TAG + "Adding card.");
         await addDoc(cardsRef, { card });
-        setCards((prevState) => [...prevState, card]);
       }
+      this.nameInput.current.value = "";
     } catch (error) {
-      console.error(TAG + "Error creating new card: ", error);
+      console.error("Error creating new card: ", error);
     }
-  };
-
-  const deleteList = () => {
-    const listId = props.list.id;
-    props.deleteList(listId);
   };
 
   const updateList = async (e) => {
     try {
       console.log(TAG + "Updating list");
       const listRef = doc(db, "lists", props.list.id);
-
-      // Set the "capital" field of the city 'DC'
       await updateDoc(listRef, {
         "list.title": e.currentTarget.value
       });
     } catch (error) {
       console.error("Error updating list: ", error);
     }
+  };
+
+  const deleteList = () => {
+    const listId = props.list.id;
+    props.deleteList(listId);
   };
 
   return (
@@ -129,9 +129,14 @@ function List(props) {
         <span onClick={deleteList}>&times;</span>
       </div>
 
-      {Object.keys(card).map((key) => (
-        <Card key={uuid()} data={card[key]} />
+      {Object.keys(card.currentCards).map((key) => (
+        <Card
+          //key={uuid()}
+          key={card.currentCards[key].id}
+          data={card.currentCards[key]}
+        />
       ))}
+
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
           type="text"

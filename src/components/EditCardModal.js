@@ -96,7 +96,6 @@ export default function EditCardModal(props) {
             </div>
             <div>
               <p className="label-title">labels:</p>
-              {console.log(JSON.stringify(select.selectedLabels, null, 2))}
               {select.selectedLabels.map((label) => {
                 return (
                   <span

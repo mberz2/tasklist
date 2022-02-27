@@ -15,7 +15,8 @@ import {
   collection,
   query,
   where,
-  orderBy
+  orderBy,
+  onSnapshot
 } from "firebase/firestore";
 
 export default function Board(props) {
@@ -27,10 +28,9 @@ export default function Board(props) {
 
   // Capture params and boardId from URL
   let params = useParams();
-  let boardId = params.boardId;
 
   // Set state objects for lists and boards on the page
-  const [list, setLists] = useState([]);
+  const [list, setLists] = useState({ currentLists: [] });
   const [board, setBoard] = useState({});
 
   // Board input reference
@@ -38,8 +38,8 @@ export default function Board(props) {
 
   // Update the state of the lists
   useEffect(() => {
-    getBoard(boardId);
-    getLists(boardId);
+    getBoard(params.boardId);
+    getLists(params.boardId);
   }, []);
 
   // Use effect for resetting text box.
@@ -52,7 +52,7 @@ export default function Board(props) {
     try {
       console.log(TAG + "Retrieving board information...");
       // Clear board state before rendering
-      setBoard({});
+      // setBoard({});
 
       // Set a firebase reference, await snapshot,
       // Capture data from snapshot and add to state
@@ -68,36 +68,49 @@ export default function Board(props) {
   // Method to get lists from Firebase
   const getLists = async (boardId) => {
     try {
-      console.log(TAG + "Retrieving lists");
-
       // Clear the Lists before re-render
-      setLists([]);
+      //setLists({currentLists: []});
 
+      console.log(TAG + "Retrieving lists");
       // Construct firebase query and await response
       const listQuery = query(
         collection(db, "lists"),
         where("list.board", "==", boardId),
         orderBy("list.createdAt")
       );
-      const lists = await getDocs(listQuery);
 
-      // Iterate through each list in the response
-      // capture the ID and save to object/
-      lists.forEach((list) => {
-        const data = list.data().list;
-        const listObj = {
-          id: list.id,
-          ...data
-        };
+      onSnapshot(listQuery, (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
+          console.log(JSON.stringify(change.doc.data(), null, 2));
+          console.log(JSON.stringify(change.type));
 
-        // Push new object to state
-        console.log(TAG + "Pushing to state");
-        setLists((prevState) => [...prevState, listObj]);
+          if (change.type === "added") {
+            const doc = change.doc;
+            const listObj = {
+              id: doc.id,
+              title: doc.data().list.title
+            };
+
+            console.log("Adding list to state");
+            setLists({ currentLists: [...list.currentLists, listObj] });
+          }
+          if (change.type === "removed") {
+            setLists({
+              currentLists: [
+                ...list.currentLists.filter((list) => {
+                  return list.id !== change.doc.id;
+                })
+              ]
+            });
+          }
+        });
       });
     } catch (error) {
       console.log(TAG + "Error getting lists", error);
     }
   };
+
+  console.log("After:\n" + JSON.stringify(list, null, 2));
 
   // Method to create a new List
   const createNewList = async (e) => {
@@ -118,7 +131,7 @@ export default function Board(props) {
 
         // Update list state with the new board.
         console.log(TAG + "Updating state...");
-        setLists((prevState) => [...prevState, list]);
+        //setLists((prevState) => [...prevState, list]);
       }
     } catch (error) {
       console.error(TAG + "Error creating new list: ", error);
@@ -159,9 +172,15 @@ export default function Board(props) {
         <button onClick={deleteBoard}>Delete Board</button>
       </div>
       <div className="lists-wrapper">
-        {Object.keys(list).map((key) => (
-          <List key={uuid()} list={list[key]} deleteList={props.deleteList} />
-        ))}
+        {Object.keys(list.currentLists).map((key) => {
+          return (
+            <List
+              key={uuid()}
+              list={list.currentLists[key]}
+              deleteList={props.deleteList}
+            />
+          );
+        })}
       </div>
 
       <form onSubmit={(e) => createNewList(e)} className="new-list-wrapper">

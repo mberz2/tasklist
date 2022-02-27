@@ -55,7 +55,6 @@ export default function App() {
     try {
       console.log(TAG + "Adding new board");
 
-      console.log("INC Board:\n" + JSON.stringify(board, null, 2));
       // Push board to Firebase and retrieve ID
       const data = await addDoc(boardsRef, { board });
 
@@ -84,7 +83,6 @@ export default function App() {
       const cards = await getDocs(cardQuery);
 
       await cards.forEach((card) => {
-        console.log(card.id);
         deleteDoc(doc(db, "cards", card.id));
       });
 
