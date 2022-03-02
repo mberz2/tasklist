@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { db, cardsRef } from "../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import EditCardModal from "./EditCardModal";
-//import TextareaAutosize from "react-autosize-textarea";
+import TextareaAutosize from "react-autosize-textarea";
 
 function Card(props) {
   let TAG = "[Card.js] ";
@@ -42,16 +42,11 @@ function Card(props) {
           })}
         </div>
         <div className="card-body">
-          {/*           <TextareaAutosize
+          <TextareaAutosize
             onClick={toggleModal}
             readOnly
             value={props.data.text}
-          ></TextareaAutosize> */}
-          <textarea
-            onClick={toggleModal}
-            readOnly
-            value={props.data.text}
-          ></textarea>
+          ></TextareaAutosize>
           <span onClick={deleteCard}>&times;</span>
         </div>
       </div>
