@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import uuid from "react-uuid";
-import TextareaAutosize from "react-autosize-textarea";
+/* import uuid from "react-uuid";
+import TextareaAutosize from "react-autosize-textarea"; */
 
 import { db } from "../firebase";
 import { updateDoc, doc } from "firebase/firestore";
@@ -88,11 +88,16 @@ export default function EditCardModal(props) {
             <hr />
             <div className="edit-area">
               <span className="edit-icon">&#x270E;</span>
-              <TextareaAutosize
+              {/*               <TextareaAutosize
                 className="textbox-edit"
                 defaultValue={props.cardData.text}
                 ref={textInput}
-              ></TextareaAutosize>
+              ></TextareaAutosize> */}
+              <textarea
+                className="textbox-edit"
+                defaultValue={props.cardData.text}
+                ref={textInput}
+              ></textarea>
             </div>
             <div>
               <p className="label-title">labels:</p>
