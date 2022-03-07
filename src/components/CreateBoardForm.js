@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 function CreateBoardForm(props) {
   let TAG = "[CreateBoardForm.js] ";
   let params = useParams();
-  console.log(TAG + "Props\n" + JSON.stringify(props));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   //Default state
   const [state, setState] = useState({ title: "", background: "" });

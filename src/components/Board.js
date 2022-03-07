@@ -24,9 +24,9 @@ function Board(props) {
   let boardId = params.boardId;
   let navigate = useNavigate();
 
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
@@ -53,12 +53,12 @@ function Board(props) {
       snapshot.forEach((doc) =>
         postData.push({ id: doc.id, title: doc.data().list.title })
       );
-      console.log(postData); // <------
+      //console.log(postData);
       setLists(postData);
     });
 
     return () => {
-      console.log("unsubscribe");
+      console.log("Unsubscribing");
       unsubscribe();
     };
   }, []);

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 function BoardPreview(props) {
   let TAG = "[BoardPreview.js] ";
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
 
   let navigate = useNavigate();
 
