@@ -10,7 +10,7 @@ import {
   collection,
   query,
   where,
-  updateDoc,
+  updateDoc
 } from "firebase/firestore";
 
 import "./styles/App.css";
@@ -44,7 +44,7 @@ export default function App() {
 
       // Set the "capital" field of the city 'DC'
       await updateDoc(boardRef, {
-        "board.title": newTitle,
+        "board.title": newTitle
       });
     } catch (error) {
       console.error("Error updating board: ", error);
@@ -53,7 +53,8 @@ export default function App() {
 
   //Method to delete a board
   const deleteBoard = async (boardId) => {
-    console.log(boardId);
+    console.log("Deleting: " + boardId);
+
     try {
       //Get/Delete the lists and cards
       const listQuery = query(

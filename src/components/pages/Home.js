@@ -10,7 +10,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 function Home(props) {
   let TAG = "[Home.js] ";
   let params = useParams();
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   // getter/setter for boards array.

@@ -1,12 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router";
+import { Modal, Button } from "react-bootstrap";
+
+function DeleteModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Deleting Board
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>Warning!</h4>
+        <p>
+          You are about to delete this board and all its associated lists and
+          cards. This action is irreversible, are you sure you want to proceed?
+        </p>
+        {/*         <button onClick={deleteBoard}>Delete Board</button> */}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.deleteBoard}>Yes</Button>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 function BoardPreview(props) {
   let TAG = "[BoardPreview.js] ";
   //console.log(TAG + "Props\n" + JSON.stringify(props));
 
   let navigate = useNavigate();
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const goToBoard = () => {
     const boardId = props.board.id;
@@ -28,7 +60,15 @@ function BoardPreview(props) {
       >
         <li>{props.board.title}</li>
       </ul>
-      <button onClick={deleteBoard}>Delete Board</button>
+      <Button variant="primary" onClick={() => setModalShow(true)}>
+        Delete Board
+      </Button>
+
+      <DeleteModal
+        show={modalShow}
+        deleteBoard={deleteBoard}
+        Hide={() => setModalShow(false)}
+      />
     </div>
   );
 }
