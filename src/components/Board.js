@@ -122,9 +122,7 @@ function Board(props) {
           defaultValue={board.title}
         />
         <div>
-          Created by: <span id="user">{board.user}</span> at{" "}
-          {console.log(JSON.stringify(board))}
-          <span id="date"></span>
+          Created by: <span id="user">{board.user}</span>
         </div>
       </div>
       <div className="lists-wrapper">
