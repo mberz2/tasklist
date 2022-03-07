@@ -46,7 +46,7 @@ function Home(props) {
   }, []);
 
   return (
-    <div>
+    <div className="homepage">
       <p>User: {params.userId}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">

@@ -47,6 +47,7 @@ function BoardPreview(props) {
 
   // Sends the board info to caller for board delete
   const deleteBoard = async () => {
+    setModalShow(false);
     const boardId = props.board.id;
     props.deleteBoard(boardId);
   };
@@ -60,7 +61,11 @@ function BoardPreview(props) {
       >
         <li>{props.board.title}</li>
       </ul>
-      <Button variant="primary" onClick={() => setModalShow(false)}>
+      <Button
+        className="btn"
+        variant="primary"
+        onClick={() => setModalShow(true)}
+      >
         Delete Board
       </Button>
 
