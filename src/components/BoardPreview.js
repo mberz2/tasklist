@@ -22,7 +22,6 @@ function DeleteModal(props) {
           You are about to delete this board and all its associated lists and
           cards. This action is irreversible, are you sure you want to proceed?
         </p>
-        {/*         <button onClick={deleteBoard}>Delete Board</button> */}
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.deleteBoard}>Yes</Button>

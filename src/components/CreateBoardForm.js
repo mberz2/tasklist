@@ -2,6 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
+
+function Alert(props) {
+  return (
+    <Modal {...props} size="lg" centered>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Missing Board Parameters
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body closeButton>
+        <h4>Error!</h4>
+        <p>
+          Please ensure you have both a name and default color set for the
+          board.
+        </p>
+      </Modal.Body>
+      <Modal.Footer></Modal.Footer>
+    </Modal>
+  );
+}
 
 function CreateBoardForm(props) {
   let TAG = "[CreateBoardForm.js] ";
@@ -11,6 +32,7 @@ function CreateBoardForm(props) {
 
   //Default state
   const [state, setState] = useState({ title: "", background: "" });
+  const [modalShow, setModalShow] = React.useState(false);
   let titleInput = React.createRef();
   let bgInput = React.createRef();
 
@@ -31,12 +53,13 @@ function CreateBoardForm(props) {
       user: params.userId
     };
     if (state.title && state.background) {
-      console.log("Creating board");
+      console.log(TAG + "Creating board");
       props.createNewBoard(board);
+      setMissing(false);
     } else if (state.background === "default") {
-      console.log("Invalid background");
+      console.log(TAG + "Invalid background");
     } else {
-      console.log("Missing params in create board.");
+      console.log(TAG + "Missing params in create board.");
     }
     titleInput.current.value = "";
     bgInput.current.value = "default";
@@ -46,13 +69,23 @@ function CreateBoardForm(props) {
     state.background = "";
   };
 
+  const [missing, setMissing] = useState(true);
+
   return (
-    <form className="create-board-wrapper" onSubmit={(e) => handleSubmit(e)}>
+    <form
+      className="create-board-wrapper"
+      onSubmit={(e) => {
+        handleSubmit(e);
+        if (missing === true) {
+          return setModalShow(true);
+        }
+      }}
+    >
       <input
         ref={titleInput}
         type="text"
         name="title"
-        onChange={handleInputChange}
+        onChange={(e) => handleInputChange()}
       />
       <select name="background" ref={bgInput} onChange={handleInputChange}>
         <option value="default">Select a color</option>
@@ -64,6 +97,8 @@ function CreateBoardForm(props) {
         <option value="#ffad33">Orange</option>
       </select>
       <button type="submit">Create new board</button>
+
+      <Alert show={modalShow} onHide={() => setModalShow(false)} />
     </form>
   );
 }

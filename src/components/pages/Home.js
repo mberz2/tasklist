@@ -47,7 +47,7 @@ function Home(props) {
 
   return (
     <div className="homepage">
-      <p>User: {params.userId}</p>
+      <p>Logged in as: {params.userId}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
         {Object.keys(state).map((key) => (
