@@ -32,8 +32,6 @@ function Card(props) {
 
   return (
     <React.Fragment>
-      {/*       {console.log(props.data.id + " " + typeof props.data.id)}
-      {console.log(props.index + " " + typeof props.index)} */}
       <Draggable draggableId={props.data.id} index={props.index}>
         {(provided) => (
           <>
@@ -55,11 +53,6 @@ function Card(props) {
                 })}
               </div>
               <div className="card-body">
-                {/*           <TextareaAutosize
-    onClick={toggleModal}
-    readOnly
-    value={props.data.text}
-  ></TextareaAutosize> */}
                 <textarea
                   onClick={toggleModal}
                   readOnly

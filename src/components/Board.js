@@ -22,7 +22,6 @@ function Board(props) {
   let TAG = "[Board.js] ";
   let params = useParams();
   let boardId = params.boardId;
-  let navigate = useNavigate();
 
   //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
@@ -122,7 +121,11 @@ function Board(props) {
           onChange={updateBoard}
           defaultValue={board.title}
         />
-        {/*         <button onClick={deleteBoard}>Delete Board</button> */}
+        <div>
+          Created by: <span id="user">{board.user}</span> at{" "}
+          {console.log(JSON.stringify(board))}
+          <span id="date"></span>
+        </div>
       </div>
       <div className="lists-wrapper">
         {Object.keys(list).map((key) => (

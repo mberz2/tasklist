@@ -41,7 +41,7 @@ function BoardPreview(props) {
 
   const goToBoard = () => {
     const boardId = props.board.id;
-    navigate(`/board/${boardId}`, {});
+    navigate(`/board/${boardId}`, { props });
   };
 
   // Sends the board info to caller for board delete

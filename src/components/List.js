@@ -105,8 +105,6 @@ export default function List(props) {
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
-    console.log(JSON.stringify(result, null, 2));
-
     //No destination for the draggable
     if (!destination) {
       return;
@@ -123,20 +121,7 @@ export default function List(props) {
     const items = Array.from(card);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    console.log("???\n" + JSON.stringify(items));
-
-    //updateCharacters(items);
-
-    //console.log("Old:\n" + JSON.stringify(card));
-    //const newCardList = [...card];
-    /*     const column = props.list.id;
-    const newTaskIds = Array.from() */
-    //newCardList.splice(source.index, 1);
-    //newCardList.splice(destination.index, 0, card[draggableId]);
-
-    //console.log("New: \n" + JSON.stringify(newCardList));
     setCards([...items]);
-    console.log(JSON.stringify(card, null, 2));
   };
 
   // Render the page
@@ -150,9 +135,10 @@ export default function List(props) {
             onChange={updateList}
             defaultValue={props.list.title}
           />
-          <span onClick={deleteList}>&times;</span>
+          <span id="deleteBtn" onClick={deleteList}>
+            &times;
+          </span>
         </div>
-        {/*         {console.log(props.list.id)} */}
         <Droppable droppableId={props.list.id}>
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
