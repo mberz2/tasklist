@@ -60,14 +60,14 @@ function BoardPreview(props) {
       >
         <li>{props.board.title}</li>
       </ul>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
+      <Button variant="primary" onClick={() => setModalShow(false)}>
         Delete Board
       </Button>
 
       <DeleteModal
         show={modalShow}
         deleteBoard={deleteBoard}
-        Hide={() => setModalShow(false)}
+        onHide={() => setModalShow(false)}
       />
     </div>
   );
