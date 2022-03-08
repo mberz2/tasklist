@@ -49,9 +49,29 @@ class MyNavbar extends React.Component {
                 >
                   Information
                 </Button>
-                <Modal show={this.state.showModal1}>
+                <Modal size="lg" show={this.state.showModal1}>
                   <Modal.Header>Information</Modal.Header>
-                  <Modal.Body>Modal Body</Modal.Body>
+                  <Modal.Body>
+                    <h2>How to use TaskBoard</h2>
+                    <hr />
+                    <h4>Board</h4>
+                    <li>Title a board i.e., input School, Home, Work, etc.</li>
+                    <h4>Lists</h4>
+                    <li>
+                      Title a list i.e., if your board is School, input Math,
+                      History, Science, etc.
+                    </li>
+                    <h4>Cards</h4>
+                    <li>
+                      Title a card i.e., if your list is Math, input HW 1,
+                      Midterm, Tutor Session, etc.
+                    </li>
+                    <h4>Further Customization</h4>
+                    <li>Cards titles can edited</li>
+                    <li>Cards can be color labeled</li>
+                    <li>Cards can be deleted.</li>
+                    <li>Cards are draggable between lists.</li>
+                  </Modal.Body>
                   <Modal.Footer>
                     <Button
                       onClick={() => {
@@ -74,15 +94,17 @@ class MyNavbar extends React.Component {
                 </Button>
                 <Modal show={this.state.showModal2}>
                   <Modal.Header>Settings</Modal.Header>
-                  <Modal.Body>Modal Body</Modal.Body>
+                  <Modal.Body></Modal.Body>
                   <Modal.Footer>
                     <Button
+                      variant="danger"
                       onClick={() => {
                         this.handleModal2();
                       }}
                     >
                       Close Modal
                     </Button>
+                    <Button>Save Changes</Button>
                   </Modal.Footer>
                 </Modal>
                 {/* =================================== */}
