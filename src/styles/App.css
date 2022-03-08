@@ -53,6 +53,7 @@ h2 {
 /* HOMEPAGE */
 .homepage {
   height: 100%;
+  padding-top: 20px;
   margin-left: 5%;
   margin-right: 5%;
 }
