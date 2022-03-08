@@ -14,11 +14,13 @@ import {
 } from "firebase/firestore";
 
 import "./styles/App.css";
+import "./styles/Footer.css";
 import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer";
 
 export default function App() {
   let TAG = "[App.js] ";
@@ -121,39 +123,35 @@ export default function App() {
   // Render the page
   return (
     <div>
+      <Navbar />
       <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route
-              path="/:userId/boards"
-              element={
-                <>
-                  <Navbar />
-                  <Home
-                    createNewBoard={createNewBoard}
-                    deleteBoard={deleteBoard}
-                  />
-                </>
-              }
-            />
-            <Route
-              path="/board/:boardId"
-              element={
-                <>
-                  <Navbar />
-                  <Board
-                    deleteBoard={deleteBoard}
-                    deleteList={deleteList}
-                    updateBoard={updateBoard}
-                  />
-                </>
-              }
-            />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route
+            path="/:userId/boards"
+            element={
+              <>
+                <Home
+                  createNewBoard={createNewBoard}
+                  deleteBoard={deleteBoard}
+                />
+              </>
+            }
+          />
+          <Route
+            path="/board/:boardId"
+            element={
+              <Board
+                deleteBoard={deleteBoard}
+                deleteList={deleteList}
+                updateBoard={updateBoard}
+              />
+            }
+          />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </Router>
+      <Footer />
     </div>
   );
 }

@@ -85,7 +85,7 @@ function CreateBoardForm(props) {
         ref={titleInput}
         type="text"
         name="title"
-        onChange={(e) => handleInputChange()}
+        onChange={handleInputChange}
       />
       <select name="background" ref={bgInput} onChange={handleInputChange}>
         <option value="default">Select a color</option>
