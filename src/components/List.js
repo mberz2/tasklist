@@ -118,6 +118,10 @@ export default function List(props) {
       return;
     }
 
+    const start = source.droppableId;
+    const end = destination.droppableId;
+    console.log(`Start: ${start} Finish: ${end}`);
+
     const items = Array.from(card);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);

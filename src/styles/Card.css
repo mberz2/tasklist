@@ -1,0 +1,101 @@
+/* CARD */
+.card {
+  margin: 10px 0;
+  padding: 10px;
+  background: #fffafa;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+.card:hover {
+  background: lightgray;
+}
+
+.card-labels {
+  display: flex;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 2px;
+}
+
+.card-body > *:hover {
+  cursor: pointer;
+}
+
+.card-body textarea {
+  font-size: 1em;
+  width: 90%;
+  resize: none;
+  border: none;
+}
+
+.new-card-wrapper input {
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+/* MODAL */
+.modal-wrapper {
+  position: fixed;
+  padding-top: 150px;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+.modal-body {
+  margin: auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fefefe;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+hr {
+  margin-top: 20px;
+}
+
+.modal-close {
+  float: right;
+  font-size: 1.5em;
+  color: rgb(230, 86, 86);
+}
+
+.textbox-edit {
+  margin: 10px 0;
+  padding: 2em;
+  font-size: 1em;
+  width: 50%;
+  background: rgb(226, 221, 221);
+  border-radius: 5px;
+}
+
+.edit-area {
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+}
+
+textarea.textbox-edit:hover {
+  transform: scale(1.01);
+}
+
+.modal-wrapper button {
+  margin: 20px 0 0 0;
+  background: rgb(73, 176, 236);
+  width: 30%;
+}

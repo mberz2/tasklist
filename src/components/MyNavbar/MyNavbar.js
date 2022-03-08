@@ -14,9 +14,13 @@ import HomeIcon from "@mui/icons-material/Home";
 const MyNavbar = () => {
   return (
     <div>
-      <Navbar id="navbar" bg="light" expand="sm">
+      <Navbar id="navbar" bg="light" expand="sm" className="container-fluid">
         <Container>
-          <Navbar.Brand className="d-none d-sm-block">TaskBoard</Navbar.Brand>
+          <Nav.Link href="/">
+            <Navbar.Brand className="ms-auto d-none d-sm-block">
+              TaskBoard
+            </Navbar.Brand>
+          </Nav.Link>
           <Navbar.Brand className="d-sm-none col-3">
             <Nav.Link href="/">
               <HomeIcon id="Home_Icon" />
