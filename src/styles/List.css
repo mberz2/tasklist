@@ -1,0 +1,46 @@
+/* LIST */
+.lists-wrapper {
+  padding: 20px;
+}
+
+.lists-wrapper #deleteBtn {
+  font-size: 1.5rem;
+}
+
+.lists-wrapper #deleteBtn:hover {
+  color: red !important;
+}
+
+.list {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.list h3 {
+  margin: 0.3em 0;
+}
+
+.new-list-wrapper input {
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  line-height: 1.5;
+  margin-left: 50px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-header input {
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+  font-weight: bolder;
+}

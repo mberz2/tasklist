@@ -2,7 +2,11 @@ import React from "react";
 import Card from "./Card";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import uuid from "react-uuid";
+import styled from "styled-components";
+import CloseIcon from "@mui/icons-material/Close";
+import Container from "react-bootstrap";
+
+import { Droppable } from "react-beautiful-dnd";
 
 import { db, cardsRef } from "../firebase";
 import {
@@ -12,9 +16,13 @@ import {
   collection,
   query,
   where,
-  orderBy,
   onSnapshot
 } from "firebase/firestore";
+
+const TaskList = styled.div`
+  background-color: ${(props) => (props.isDraggingOver ? "#d3d3d3" : "white")};
+  min-height: 25px;
+`;
 
 export default function List(props) {
   let TAG = "[List.js] ";
@@ -34,8 +42,7 @@ export default function List(props) {
     // Base query to cards
     const q = query(
       collection(db, "cards"),
-      where("card.listId", "==", props.list.id),
-      orderBy("card.createdAt")
+      where("card.listId", "==", props.list.id)
     );
 
     // Update the cards in real time
@@ -52,7 +59,7 @@ export default function List(props) {
     });
 
     return () => {
-      console.log("unsubscribe");
+      //console.log("Unsubscribing");
       unsubscribe();
     };
   }, []);
@@ -103,7 +110,7 @@ export default function List(props) {
 
   // Render the page
   return (
-    <div className="list">
+    <div className="list col-5 bg-light">
       <div className="list-header">
         <input
           type="text"
@@ -111,11 +118,27 @@ export default function List(props) {
           onChange={updateList}
           defaultValue={props.list.title}
         />
-        <span onClick={deleteList}>&times;</span>
+        <span id="deleteBtn" onClick={deleteList}>
+          <CloseIcon />
+        </span>
       </div>
-      {Object.keys(card).map((key) => (
-        <Card key={uuid()} data={card[key]} />
-      ))}
+      <Droppable droppableId={props.list.id}>
+        {(provided, snapshot) => (
+          <TaskList
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            <div>
+              {Object.keys(card).map((key, index) => (
+                <Card key={card[key].id} data={card[key]} index={index} />
+              ))}
+              {provided.placeholder}
+            </div>
+          </TaskList>
+        )}
+      </Droppable>
+
       <form onSubmit={createNewCard} className="new-card-wrapper">
         <input
           type="text"

@@ -6,8 +6,9 @@ import {
   NavDropdown,
   Button,
   Modal,
-  ModalBody,
+  ModalBody
 } from "react-bootstrap";
+
 import {
   flattenDiagnosticMessageText,
   isConstructorDeclaration,

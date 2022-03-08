@@ -10,7 +10,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 function Home(props) {
   let TAG = "[Home.js] ";
   let params = useParams();
-  console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   // getter/setter for boards array.
@@ -46,8 +46,8 @@ function Home(props) {
   }, []);
 
   return (
-    <div>
-      <p>User: {params.userId}</p>
+    <div className="homepage">
+      <p>Logged in as: {params.userId}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
         {Object.keys(state).map((key) => (
