@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 function Alert(props) {
   return (
@@ -55,7 +55,6 @@ function CreateBoardForm(props) {
     if (state.title && state.background) {
       console.log(TAG + "Creating board");
       props.createNewBoard(board);
-      setMissing(false);
       return;
     } else if (state.background === "default") {
       console.log(TAG + "Invalid background");
@@ -72,8 +71,6 @@ function CreateBoardForm(props) {
     state.title = "";
     state.background = "";
   };
-
-  const [missing, setMissing] = useState(true);
 
   return (
     <form
