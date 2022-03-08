@@ -18,7 +18,8 @@ import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
-import Navbar from "./components/Navbar/Navbar";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import MyNavbar from "./components/MyNavbar/MyNavbar";
 
 export default function App() {
   let TAG = "[App.js] ";
@@ -128,7 +129,7 @@ export default function App() {
               path="/:userId/boards"
               element={
                 <>
-                  <Navbar />
+                  <MyNavbar />
                   <Home
                     createNewBoard={createNewBoard}
                     deleteBoard={deleteBoard}
@@ -140,7 +141,7 @@ export default function App() {
               path="/board/:boardId"
               element={
                 <>
-                  <Navbar />
+                  <MyNavbar />
                   <Board
                     deleteBoard={deleteBoard}
                     deleteList={deleteList}
