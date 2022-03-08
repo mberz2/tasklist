@@ -30,6 +30,7 @@ class MyNavbar extends React.Component {
   handleModal2() {
     this.setState({ showModal2: !this.state.showModal2 });
   }
+
   render() {
     return (
       <div>
