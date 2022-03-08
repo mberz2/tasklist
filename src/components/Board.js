@@ -58,7 +58,7 @@ function Board(props) {
     });
 
     return () => {
-      console.log("Unsubscribing");
+      /* console.log("Unsubscribing"); */
       unsubscribe();
     };
   }, []);
@@ -163,7 +163,7 @@ function Board(props) {
           Created by: <span id="user">{board.user}</span>
         </div>
       </div>
-      <div className="lists-wrapper">
+      <div className="lists-wrapper d-flex flex-wrap justify-content-around">
         <DragDropContext onDragEnd={onDragEnd}>
           {Object.keys(list).map((key) => (
             <List key={uuid()} list={list[key]} deleteList={props.deleteList} />

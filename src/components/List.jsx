@@ -3,6 +3,8 @@ import Card from "./Card";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import CloseIcon from "@mui/icons-material/Close";
+import Container from "react-bootstrap";
 
 import { Droppable } from "react-beautiful-dnd";
 
@@ -19,8 +21,7 @@ import {
 
 const TaskList = styled.div`
   background-color: ${(props) => (props.isDraggingOver ? "#d3d3d3" : "white")};
-  flex-grow: 1;
-  min-height: 100px;
+  min-height: 25px;
 `;
 
 export default function List(props) {
@@ -109,8 +110,7 @@ export default function List(props) {
 
   // Render the page
   return (
-    /*     <DragDropContext onDragEnd={onDragEnd}> */
-    <div className="list">
+    <div className="list col-5 bg-light">
       <div className="list-header">
         <input
           type="text"
@@ -119,7 +119,7 @@ export default function List(props) {
           defaultValue={props.list.title}
         />
         <span id="deleteBtn" onClick={deleteList}>
-          &times;
+          <CloseIcon />
         </span>
       </div>
       <Droppable droppableId={props.list.id}>
