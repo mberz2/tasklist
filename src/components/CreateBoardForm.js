@@ -56,11 +56,15 @@ function CreateBoardForm(props) {
       console.log(TAG + "Creating board");
       props.createNewBoard(board);
       setMissing(false);
+      return;
     } else if (state.background === "default") {
       console.log(TAG + "Invalid background");
+      setModalShow(true);
     } else {
       console.log(TAG + "Missing params in create board.");
+      setModalShow(true);
     }
+
     titleInput.current.value = "";
     bgInput.current.value = "default";
 
@@ -76,9 +80,6 @@ function CreateBoardForm(props) {
       className="create-board-wrapper"
       onSubmit={(e) => {
         handleSubmit(e);
-        if (missing === true) {
-          return setModalShow(true);
-        }
       }}
     >
       <input
