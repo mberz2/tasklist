@@ -19,7 +19,7 @@ import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/MyNavbar";
 import Footer from "./components/Footer";
 
 export default function App() {
