@@ -18,3 +18,8 @@
   outline: none;
   border: none;
 }
+
+#footer a {
+  color: black;
+  text-decoration: none;
+}

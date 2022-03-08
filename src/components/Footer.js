@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Modal, Container, Navbar, Nav } from "react-bootstrap";
 
 function About(props) {
@@ -63,7 +64,9 @@ function Footer(props) {
             <Button variant="primary" onClick={() => setModalShow(true)}>
               About
             </Button>
-            <Button variant="primary">Github</Button>
+            <Button variant="primary">
+              <a href="https://github.com/mberz2/tasklist">Github</a>
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
