@@ -6,21 +6,25 @@ import {
   NavDropdown,
   Button,
   Modal,
-  ModalBody,
+  ModalBody
 } from "react-bootstrap";
+import HomeIcon from "@mui/icons-material/Home";
 // import { MenuItems } from "./MenuItems";
 
 const MyNavbar = () => {
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar id="navbar" bg="light" expand="sm">
         <Container>
-          <Navbar.Brand className="ml-auto">TaskBoard</Navbar.Brand>
+          <Navbar.Brand className="d-none d-sm-block">TaskBoard</Navbar.Brand>
+          <Navbar.Brand className="d-sm-none col-3">
+            <Nav.Link href="/">
+              <HomeIcon id="Home_Icon" />
+            </Nav.Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-auto">
-              {/* <Nav.Link href="#settings">Settings</Nav.Link> */}
-              {/* <Nav.Link href="/">Information</Nav.Link> */}
+            <Nav className="ms-auto">
               <Button>Information</Button>
               <Modal show={false}>
                 <Modal.Header>Modal Head</Modal.Header>
