@@ -28,7 +28,7 @@ function About(props) {
             <li>Github: github.com/mberz2/</li>
           </ul>
 
-          <li>"Tommy Nguyen</li>
+          <li>Tommy Nguyen</li>
           <ul>
             <li>Email: ntommy@pdx.ed</li>
           </ul>
