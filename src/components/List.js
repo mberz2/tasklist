@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import { db, cardsRef } from "../firebase";
 import {
   addDoc,
@@ -34,8 +36,7 @@ export default function List(props) {
     // Base query to cards
     const q = query(
       collection(db, "cards"),
-      where("card.listId", "==", props.list.id),
-      orderBy("card.createdAt")
+      where("card.listId", "==", props.list.id)
     );
 
     // Update the cards in real time
@@ -52,7 +53,7 @@ export default function List(props) {
     });
 
     return () => {
-      console.log("unsubscribe");
+      console.log("Unsubscribing");
       unsubscribe();
     };
   }, []);
@@ -101,30 +102,63 @@ export default function List(props) {
     props.deleteList(listId);
   };
 
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+
+    //No destination for the draggable
+    if (!destination) {
+      return;
+    }
+
+    //Pickd up at same spot
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const items = Array.from(card);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCards([...items]);
+  };
+
   // Render the page
   return (
-    <div className="list">
-      <div className="list-header">
-        <input
-          type="text"
-          name="boardTitle"
-          onChange={updateList}
-          defaultValue={props.list.title}
-        />
-        <span onClick={deleteList}>&times;</span>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="list">
+        <div className="list-header">
+          <input
+            type="text"
+            name="boardTitle"
+            onChange={updateList}
+            defaultValue={props.list.title}
+          />
+          <span id="deleteBtn" onClick={deleteList}>
+            &times;
+          </span>
+        </div>
+        <Droppable droppableId={props.list.id}>
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {Object.keys(card).map((key, index) => (
+                <Card key={card[key].id} data={card[key]} index={index} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+        <form onSubmit={createNewCard} className="new-card-wrapper">
+          <input
+            type="text"
+            ref={cardInput}
+            name="name"
+            placeholder=" + New Card"
+          />
+        </form>
       </div>
-      {Object.keys(card).map((key) => (
-        <Card key={uuid()} data={card[key]} />
-      ))}
-      <form onSubmit={createNewCard} className="new-card-wrapper">
-        <input
-          type="text"
-          ref={cardInput}
-          name="name"
-          placeholder=" + New Card"
-        />
-      </form>
-    </div>
+    </DragDropContext>
   );
 }
 

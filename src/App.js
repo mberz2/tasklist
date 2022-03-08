@@ -10,16 +10,17 @@ import {
   collection,
   query,
   where,
-  updateDoc,
+  updateDoc
 } from "firebase/firestore";
 
 import "./styles/App.css";
+import "./styles/Footer.css";
 import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
-import { Navbar, Container, Nav } from "react-bootstrap";
-import MyNavbar from "./components/MyNavbar/MyNavbar";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer";
 
 export default function App() {
   let TAG = "[App.js] ";
@@ -45,7 +46,7 @@ export default function App() {
 
       // Set the "capital" field of the city 'DC'
       await updateDoc(boardRef, {
-        "board.title": newTitle,
+        "board.title": newTitle
       });
     } catch (error) {
       console.error("Error updating board: ", error);
@@ -54,7 +55,8 @@ export default function App() {
 
   //Method to delete a board
   const deleteBoard = async (boardId) => {
-    console.log(boardId);
+    console.log("Deleting: " + boardId);
+
     try {
       //Get/Delete the lists and cards
       const listQuery = query(
@@ -121,38 +123,34 @@ export default function App() {
   // Render the page
   return (
     <div>
+      <Navbar />
       <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route
-              path="/:userId/boards"
-              element={
-                <>
-                  <MyNavbar />
-                  <Home
-                    createNewBoard={createNewBoard}
-                    deleteBoard={deleteBoard}
-                  />
-                </>
-              }
-            />
-            <Route
-              path="/board/:boardId"
-              element={
-                <>
-                  <MyNavbar />
-                  <Board
-                    deleteBoard={deleteBoard}
-                    deleteList={deleteList}
-                    updateBoard={updateBoard}
-                  />
-                </>
-              }
-            />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route
+            path="/:userId/boards"
+            element={
+              <>
+                <Home
+                  createNewBoard={createNewBoard}
+                  deleteBoard={deleteBoard}
+                />
+              </>
+            }
+          />
+          <Route
+            path="/board/:boardId"
+            element={
+              <Board
+                deleteBoard={deleteBoard}
+                deleteList={deleteList}
+                updateBoard={updateBoard}
+              />
+            }
+          />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />
       </Router>
     </div>
   );
