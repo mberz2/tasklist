@@ -14,12 +14,12 @@ import {
 } from "firebase/firestore";
 
 import "./styles/App.css";
-import "./styles/Footer.css";
+import "./styles/Nav.css";
 import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer";
 
 export default function App() {

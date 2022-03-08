@@ -5,8 +5,12 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@emotion/react": "11.8.1",
+    "@emotion/styled": "11.8.1",
     "@firebase/app": "0.7.17",
     "@firebase/firestore": "3.4.5",
+    "@mui/icons-material": "5.5.0",
+    "@mui/material": "5.5.0",
     "bootstrap": "^5.1.3",
     "firebase": "9.6.7",
     "firebase-admin": "10.0.2",

@@ -1,3 +1,12 @@
+#navbar {
+  padding: 20px;
+}
+
+#Home_Icon {
+  color: black;
+  font-size: 1.5em;
+}
+
 #footer {
   padding-right: 20px;
   padding-left: 20px;
@@ -6,12 +15,14 @@
   text-align: center;
 }
 
+#navbar Button,
 #footer Button {
   background: transparent;
   color: black;
   border: none;
 }
 
+#navbar Button,
 #footer Button:hover,
 #footer Button:active,
 #footer Button:focus {
