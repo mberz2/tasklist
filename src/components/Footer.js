@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Modal, Container, Navbar, Nav } from "react-bootstrap";
-/* 
+
 function About(props) {
   return (
     <Modal
@@ -9,26 +9,42 @@ function About(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Deleting Board
-        </Modal.Title>
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">About Us</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Warning!</h4>
         <p>
-          You are about to delete this board and all its associated lists and
-          cards. This action is irreversible, are you sure you want to proceed?
+          This website was created as a final project for CS465P Full Stack Web
+          Development, at Portland State University.
         </p>
       </Modal.Body>
+      <Modal.Body>
+        <h4>Who We Are</h4>
+        <p>This project was a collaborative effort between:</p>
+        <ul>
+          <li>Matthew Berzinskas</li>
+          <ul>
+            <li>Email: mberz2@pdx.edu</li>
+            <li>Github: github.com/mberz2/</li>
+          </ul>
+
+          <li>"Tommy Nguyen</li>
+          <ul>
+            <li>Email: ntommy@pdx.ed</li>
+          </ul>
+          <li>Nick Morales</li>
+          <ul>
+            <li>Email: nimora2@pdx.edu</li>
+          </ul>
+        </ul>
+      </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.deleteBoard}>Yes</Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
 }
- */
+
 function Footer(props) {
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -44,13 +60,14 @@ function Footer(props) {
         <Navbar.Toggle className="container-fluid text-center" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto me-auto gap-4">
-            <Nav.Link>About</Nav.Link>
-            <Nav.Link href="#github">Github</Nav.Link>
+            <Button variant="primary" onClick={() => setModalShow(true)}>
+              About
+            </Button>
+            <Button variant="primary">Github</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {/* 
-      <About show={modalShow} onHide={() => setModalShow(false)} /> */}
+      <About show={modalShow} onHide={() => setModalShow(false)} />
     </Navbar>
   );
 }

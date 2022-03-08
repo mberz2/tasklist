@@ -5,3 +5,16 @@
   align-content: center;
   text-align: center;
 }
+
+#footer Button {
+  background: transparent;
+  color: black;
+  border: none;
+}
+
+#footer Button:hover,
+#footer Button:active,
+#footer Button:focus {
+  outline: none;
+  border: none;
+}
