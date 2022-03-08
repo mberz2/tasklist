@@ -8,6 +8,9 @@ import {
   Modal,
   ModalBody
 } from "react-bootstrap";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "../globalStyles";
+import { lightTheme, darkTheme } from "../themes"
 import HomeIcon from "@mui/icons-material/Home";
 // import { MenuItems } from "./MenuItems";
 

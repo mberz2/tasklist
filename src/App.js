@@ -21,10 +21,16 @@ import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
 import Navbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "./components/globalStyles";
+import { lightTheme, darkTheme } from "./components/themes"
 
 export default function App() {
   let TAG = "[App.js] ";
-
+  const [theme, setTheme] = useState('light');
+  const themeToggler = () => {
+    theme === 'light' ? setTheme('dark') : setTheme('light')
+  }
   // Method to create a new board
   const createNewBoard = async (board) => {
     try {
@@ -123,35 +129,41 @@ export default function App() {
   // Render the page
   return (
     <div>
-      <Navbar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route
-            path="/:userId/boards"
-            element={
-              <>
-                <Home
-                  createNewBoard={createNewBoard}
-                  deleteBoard={deleteBoard}
-                />
-              </>
-            }
-          />
-          <Route
-            path="/board/:boardId"
-            element={
-              <Board
-                deleteBoard={deleteBoard}
-                deleteList={deleteList}
-                updateBoard={updateBoard}
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+        <>
+          <GlobalStyles/>
+          <button onClick={themeToggler}>Switch Theme</button>
+          <Navbar />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route
+                path="/:userId/boards"
+                element={
+                  <>
+                    <Home
+                      createNewBoard={createNewBoard}
+                      deleteBoard={deleteBoard}
+                    />
+                  </>
+                }
               />
-            }
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-        <Footer />
-      </Router>
+              <Route
+                path="/board/:boardId"
+                element={
+                  <Board
+                    deleteBoard={deleteBoard}
+                    deleteList={deleteList}
+                    updateBoard={updateBoard}
+                  />
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </>
+      </ThemeProvider>
     </div>
   );
 }
