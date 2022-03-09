@@ -15,6 +15,11 @@ import {
 
 import "./styles/App.css";
 import "./styles/Nav.css";
+import "./styles/List.css";
+import "./styles/Board.css";
+import "./styles/Card.css";
+import "./styles/Normalize.css";
+
 import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";

@@ -2,9 +2,11 @@ import React from "react";
 import Card from "./Card";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import uuid from "react-uuid";
+import styled from "styled-components";
+import CloseIcon from "@mui/icons-material/Close";
+import Container from "react-bootstrap";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 
 import { db, cardsRef } from "../firebase";
 import {
@@ -14,9 +16,13 @@ import {
   collection,
   query,
   where,
-  orderBy,
   onSnapshot
 } from "firebase/firestore";
+
+const TaskList = styled.div`
+  background-color: ${(props) => (props.isDraggingOver ? "#d3d3d3" : "white")};
+  min-height: 25px;
+`;
 
 export default function List(props) {
   let TAG = "[List.js] ";
@@ -53,7 +59,7 @@ export default function List(props) {
     });
 
     return () => {
-      console.log("Unsubscribing");
+      //console.log("Unsubscribing");
       unsubscribe();
     };
   }, []);
@@ -102,63 +108,46 @@ export default function List(props) {
     props.deleteList(listId);
   };
 
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-
-    //No destination for the draggable
-    if (!destination) {
-      return;
-    }
-
-    //Pickd up at same spot
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const items = Array.from(card);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setCards([...items]);
-  };
-
   // Render the page
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="list">
-        <div className="list-header">
-          <input
-            type="text"
-            name="boardTitle"
-            onChange={updateList}
-            defaultValue={props.list.title}
-          />
-          <span id="deleteBtn" onClick={deleteList}>
-            &times;
-          </span>
-        </div>
-        <Droppable droppableId={props.list.id}>
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+    <div className="list col-5 bg-light">
+      <div className="list-header">
+        <input
+          type="text"
+          name="boardTitle"
+          onChange={updateList}
+          defaultValue={props.list.title}
+        />
+        <span id="deleteBtn" onClick={deleteList}>
+          <CloseIcon />
+        </span>
+      </div>
+      <Droppable droppableId={props.list.id}>
+        {(provided, snapshot) => (
+          <TaskList
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            <div>
               {Object.keys(card).map((key, index) => (
                 <Card key={card[key].id} data={card[key]} index={index} />
               ))}
               {provided.placeholder}
             </div>
-          )}
-        </Droppable>
-        <form onSubmit={createNewCard} className="new-card-wrapper">
-          <input
-            type="text"
-            ref={cardInput}
-            name="name"
-            placeholder=" + New Card"
-          />
-        </form>
-      </div>
-    </DragDropContext>
+          </TaskList>
+        )}
+      </Droppable>
+
+      <form onSubmit={createNewCard} className="new-card-wrapper">
+        <input
+          type="text"
+          ref={cardInput}
+          name="name"
+          placeholder=" + New Card"
+        />
+      </form>
+    </div>
   );
 }
 

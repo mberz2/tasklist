@@ -1,10 +1,11 @@
 import React from "react";
 import List from "./List";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
+
+import { DragDropContext } from "react-beautiful-dnd";
 
 import { db, listsRef } from "../firebase";
 import {
@@ -15,7 +16,8 @@ import {
   query,
   where,
   orderBy,
-  onSnapshot
+  onSnapshot,
+  setDoc
 } from "firebase/firestore";
 
 function Board(props) {
@@ -52,12 +54,11 @@ function Board(props) {
       snapshot.forEach((doc) =>
         postData.push({ id: doc.id, title: doc.data().list.title })
       );
-      //console.log(postData);
       setLists(postData);
     });
 
     return () => {
-      console.log("Unsubscribing");
+      /* console.log("Unsubscribing"); */
       unsubscribe();
     };
   }, []);
@@ -108,6 +109,43 @@ function Board(props) {
     }
   };
 
+  const onDragEnd = async (result) => {
+    const { destination, source, draggableId } = result;
+    const docRef = doc(db, "cards", draggableId);
+    const docSnap = await getDoc(docRef);
+
+    //Pickd up at same spot
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      console.log("Dropped in same spot.");
+      return;
+    }
+
+    if (docSnap.exists()) {
+      //ADD CARD TO NEW LIST
+      let data = docSnap.data().card;
+      const card = {
+        text: data.text,
+        listId: destination.droppableId,
+        labels: data.labels,
+        createdAt: data.createdAt
+      };
+
+      await setDoc(doc(db, "cards", draggableId), { card: card });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+    //No destination for the draggable
+    if (!destination) {
+      console.log("No destination.");
+      return;
+    }
+  };
+
   // Render the page
   return (
     <div
@@ -125,10 +163,12 @@ function Board(props) {
           Created by: <span id="user">{board.user}</span>
         </div>
       </div>
-      <div className="lists-wrapper">
-        {Object.keys(list).map((key) => (
-          <List key={uuid()} list={list[key]} deleteList={props.deleteList} />
-        ))}
+      <div className="lists-wrapper d-flex flex-wrap justify-content-around">
+        <DragDropContext onDragEnd={onDragEnd}>
+          {Object.keys(list).map((key) => (
+            <List key={uuid()} list={list[key]} deleteList={props.deleteList} />
+          ))}
+        </DragDropContext>
       </div>
 
       <form onSubmit={(e) => createNewList(e)} className="new-list-wrapper">
