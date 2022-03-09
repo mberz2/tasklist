@@ -18,9 +18,9 @@ const HomePage = () => {
   console.log(user);
   return (
     <>
-      <div className="p-4 box mt-3 text-center">
-        Hello Welcome <br />
-        {user.displayName}
+      <div className="p-5 box mt-3 text-center">
+        <h1> Hello!</h1> <br />
+        <p> Welcome {user.displayName}</p>
         {/*         {user.displayName && user && user.email} */}
       </div>
       <div className="d-grid gap-2">

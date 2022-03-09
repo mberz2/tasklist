@@ -12,10 +12,13 @@ import HomeIcon from "@mui/icons-material/Home";
 
 class MyNavbar extends React.Component {
   constructor(props) {
+    const buttonTxt =
+      localStorage.getItem("theme") === `light`
+        ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark`
+        : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
+    const classTheme =
+      localStorage.getItem("theme") === `light` ? `bg-light` : `bg-dark`;
 
-    const buttonTxt = localStorage.getItem('theme') === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
-    const classTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
-    
     super(props);
 
     this.state = {
@@ -38,9 +41,12 @@ class MyNavbar extends React.Component {
       let localStorageTheme = localStorage.getItem("theme");
       document.body.className = `theme_${localStorageTheme}`;
       const currTheme = localStorageTheme === `light` ? `bg-light` : `bg-dark`;
-      this.setState({ classNorm : currTheme});
-      const currButton = localStorageTheme  === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
-      this.setState({ modButtonTxt : currButton});
+      this.setState({ classNorm: currTheme });
+      const currButton =
+        localStorageTheme === `light`
+          ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark`
+          : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
+      this.setState({ modButtonTxt: currButton });
     }
   }
   handleModal1() {
@@ -55,7 +61,9 @@ class MyNavbar extends React.Component {
     return (
       <div>
         <Navbar
-id="navbar" bg={this.state.navTheme} variant={this.state.navTheme}
+          id="navbar"
+          bg={this.state.navTheme}
+          variant={this.state.navTheme}
           collapseOnSelect
           sticky="top"
           expand="md"
@@ -89,25 +97,35 @@ id="navbar" bg={this.state.navTheme} variant={this.state.navTheme}
                 className="navbar_modal"
               >
                 <div class="information">
-                  <Modal.Body className={this.state.classNorm}>
+                  <Modal.Header class="d-flex pt-3 justify-content-center">
                     <h1>Information</h1>
+                  </Modal.Header>
+                  <Modal.Body className={this.state.classNorm}>
                     <Accordion className={this.state.classNorm}>
                       <Alert variant="info">
-                        <Alert.Heading >
+                        <Alert.Heading>
                           <b>Click items below!</b>
                         </Alert.Heading>
                         <hr />
                         <p>Learn how to use our The TaskBoard Application!</p>
                       </Alert>
-                      <Accordion.Item className={this.state.classNorm} eventKey="0">
-                        <Accordion.Header className={this.state.classNorm}>Boards</Accordion.Header>
+                      <Accordion.Item
+                        className={this.state.classNorm}
+                        eventKey="0"
+                      >
+                        <Accordion.Header className={this.state.classNorm}>
+                          Boards
+                        </Accordion.Header>
                         <Accordion.Body className={this.state.classNorm}>
                           <li>
                             Title a board i.e., input School, Home, Work, etc.
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item className={this.state.classNorm} eventKey="1">
+                      <Accordion.Item
+                        className={this.state.classNorm}
+                        eventKey="1"
+                      >
                         <Accordion.Header>Lists</Accordion.Header>
                         <Accordion.Body>
                           <li>
@@ -116,8 +134,13 @@ id="navbar" bg={this.state.navTheme} variant={this.state.navTheme}
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item className={this.state.classNorm} eventKey="2">
-                        <Accordion.Header className={this.state.classNorm}>Cards</Accordion.Header>
+                      <Accordion.Item
+                        className={this.state.classNorm}
+                        eventKey="2"
+                      >
+                        <Accordion.Header className={this.state.classNorm}>
+                          Cards
+                        </Accordion.Header>
                         <Accordion.Body className={this.state.classNorm}>
                           <li>
                             Title a list i.e., if your board is School, input
@@ -125,7 +148,10 @@ id="navbar" bg={this.state.navTheme} variant={this.state.navTheme}
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item className={this.state.classNorm} eventKey="3">
+                      <Accordion.Item
+                        className={this.state.classNorm}
+                        eventKey="3"
+                      >
                         <Accordion.Header className={this.state.classNorm}>
                           Further Customization
                         </Accordion.Header>

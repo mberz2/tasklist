@@ -1,11 +1,10 @@
 import React from "react";
 import List from "./List";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
 import { useUserAuth } from "../context/UserAuthContext";
-
 import { DragDropContext } from "react-beautiful-dnd";
 
 import { db, listsRef } from "../firebase";
@@ -164,6 +163,9 @@ function Board(props) {
         <div>
           Created by: <span id="user">{board.user}</span>
         </div>
+        <Link to={`/${user.displayName}/boards`}>
+          <button id="back_button">Back to Boards</button>
+        </Link>
       </div>
       <div className="lists-wrapper d-flex flex-wrap justify-content-around">
         <DragDropContext onDragEnd={onDragEnd}>

@@ -5,7 +5,6 @@
   border-radius: 5px;
   cursor: auto;
   display: flex;
-  filter: drop-shadow(1px 3px 5px #060606);
   margin-left: 5%;
   margin-right: 5%;
 }
@@ -55,12 +54,13 @@
   cursor: pointer;
   margin-left: 10%;
   margin-right: 5%;
+  color: black;
 }
 
 .board-preview-container {
   display: flex;
   flex-direction: column;
-  width: 28%;
+  width: 30%;
   background: white;
   border: 1px solid black;
   border-radius: 5px;
@@ -98,6 +98,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
+  color: black;
 }
 
 .board-header input {
@@ -105,6 +106,7 @@
   border: none;
   font-size: 1.5em;
   font-weight: bolder;
+  color: black;
 }
 
 .board-header button {
@@ -114,7 +116,13 @@
   width: 20%;
 }
 
+#back_button {
+  background: var(--bg_color);
+  color: var(--text_color);
+}
+
 .board-wrapper {
+  height: 50%;
   max-height: 100%;
   margin: 2%;
   margin-bottom: 80px;

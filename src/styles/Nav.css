@@ -16,15 +16,18 @@
   padding-left: 20px;
 }
 
-#footer_modal div {
+#footer_modal * {
   background: var(--bg_color);
   color: var(--text_color);
+}
+
+#footer_container {
+  border: 1px solid black;
 }
 
 #navbar Button,
 #footer Button {
   background: transparent;
-  /*color: black;*/
   border: none;
 }
 
@@ -40,18 +43,16 @@
   color: var(--text_color);
   text-decoration: none;
 }
-.modal, .modal-body, .modal-footer, .modal-header{
+.modal,
+.modal-body,
+.modal-footer,
+.modal-header {
   border: none;
   outline: none;
 }
 
 .list-group {
   border: none;
-}
-
-.accordion-body li{
-  /*color: black;*/
-  /*background-color: #909090;*/
 }
 
 .navbar_modal {
@@ -61,7 +62,7 @@
   align-items: center;
 }
 
-.information{
+.information {
   background: var(--bg_color);
   color: var(--text_color);
 }

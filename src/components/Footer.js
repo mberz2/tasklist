@@ -9,8 +9,9 @@ function About(props) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      id="footer_modal"
     >
-      <div id="footer_modal">
+      <div id="footer_container">
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter">About Us</Modal.Title>
         </Modal.Header>
