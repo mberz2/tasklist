@@ -71,6 +71,7 @@
   height: 100vh;
   left: 0;
   top: 0;
+  color: black;
 }
 
 .modal-body {
@@ -79,10 +80,12 @@
   border-radius: 5px;
   border: 1px solid #888;
   width: 80%;
+  color: black;
 }
 
 .modal-body textarea {
   width: 100%;
+  color: black;
 }
 
 hr {
