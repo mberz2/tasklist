@@ -8,5 +8,6 @@ export const GlobalStyles = createGlobalStyle`
   }
   input {
     color: ${({ theme }) => theme.text};
+    background: ${({ theme }) => theme.body};
   }
   `
