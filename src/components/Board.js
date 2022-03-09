@@ -166,7 +166,7 @@ function Board(props) {
       <div className="lists-wrapper d-flex flex-wrap justify-content-around">
         <DragDropContext onDragEnd={onDragEnd}>
           {Object.keys(list).map((key) => (
-            <List key={uuid()} list={list[key]} deleteList={props.deleteList} />
+            <List dataFromBoard={props.dataFromApp} key={uuid()} list={list[key]} deleteList={props.deleteList} />
           ))}
         </DragDropContext>
       </div>

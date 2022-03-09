@@ -31,7 +31,7 @@ export default function List(props) {
   //console.log(TAG + "Props\n" + JSON.stringify(props));
   //console.log(TAG + "State\n" + JSON.stringify(state));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
-
+  const bgCl = props.dataFromBoard === `light` ? `list col-5 bg-light text-dark` : `list col-5 bg-dark text-white`; 
   //To-Do find a more efficient way
   useEffect(() => {
     // Use effect for reset cardInput on re-render
@@ -110,7 +110,7 @@ export default function List(props) {
 
   // Render the page
   return (
-    <div className="list col-5 bg-light">
+    <div className={bgCl}>
       <div className="list-header">
         <input
           type="text"
