@@ -52,10 +52,16 @@
   /*background-color: #909090;*/
 }
 
-#information {
+#information,
+#information div,
+#information button,
+#settings {
   background: var(--bg_color);
   color: var(--text_color);
+  border: none;
+  outline: none;
 }
+
 .accordion-body,
 .accordion {
   border: none;
