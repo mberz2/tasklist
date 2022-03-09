@@ -35,7 +35,10 @@ class MyNavbar extends React.Component {
     };
 
     let localStorageTheme = localStorage.getItem("theme");
-    document.body.className = `theme_${localStorageTheme}`;
+    if(localStorageTheme !== null)
+      document.body.className = `theme_${localStorageTheme}`;
+    else
+      document.body.className = `theme_light`;
   }
 
   componentDidUpdate() {
