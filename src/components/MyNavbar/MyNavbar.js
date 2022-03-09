@@ -1,69 +1,53 @@
 import React, { Component } from "react";
 import {
   Navbar,
-  Container,
   Nav,
-  NavDropdown,
   Button,
   Modal,
-  ModalBody,
   Accordion,
   ListGroup,
-  ButtonGroup,
-  Alert,
+  Alert
 } from "react-bootstrap";
+import HomeIcon from "@mui/icons-material/Home";
 
 class MyNavbar extends React.Component {
   constructor(props) {
-    const buttonTxt = localStorage.getItem('theme') === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
-    const genTheme = localStorage.getItem('theme') === `light` ? `bg-light text-black` : `bg-dark text-white`;
-    const modTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
+    const buttonTxt =
+      localStorage.getItem("theme") === `light`
+        ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark`
+        : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
+    const genTheme =
+      localStorage.getItem("theme") === `light`
+        ? `bg-light text-black`
+        : `bg-dark text-white`;
+    const modTheme =
+      localStorage.getItem("theme") === `light` ? `bg-light` : `bg-dark`;
+
     super(props);
+
     this.state = {
       showModal1: false,
       showModal2: false,
-      navTheme: localStorage.getItem('theme'),
+      navTheme: localStorage.getItem("theme"),
       modButtonTxt: buttonTxt,
       classNorm: genTheme,
       modNorm: modTheme
     };
+
     let localStorageTheme = localStorage.getItem("theme");
     document.body.className = `theme_${localStorageTheme}`;
   }
+
   componentDidUpdate() {
     if (this.state.navTheme !== localStorage.getItem("theme")) {
       this.setState({ navTheme: localStorage.getItem("theme") });
       let localStorageTheme = localStorage.getItem("theme");
       document.body.className = `theme_${localStorageTheme}`;
     }
-    if (this.state.navThem === `light`){
-      
+    if (this.state.navThem === `light`) {
     }
-  }
-  /*
-  componentDidMount(){
-    console.log("Mounting");
-    let localStorageTheme = localStorage.getItem("theme");
-    this.state.navTheme = localStorageTheme;
   }
 
-  componentDidUpdate(){
-    
-    
-    console.log(`update spotted`);
-    if(!localStorageTheme){
-      console.log(`how did you do that`);
-      localStorageTheme = `light`;
-    }
-    
-    let localStorageTheme = localStorage.getItem("theme");
-    //if(localStorageTheme === `light`) localStorageTheme = `dark`;
-    //else{localStorageTheme = `light`};
-    this.state.navTheme = localStorageTheme;
-    console.log(localStorageTheme);
-    console.log(this.state.navTheme);
-  }
-  */
   handleModal1() {
     this.setState({ showModal1: !this.state.showModal1 });
   }
@@ -75,24 +59,40 @@ class MyNavbar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar id="navbar" bg={this.state.navTheme} variant={this.state.navTheme} expand="sm">
-          <div class="container-fluid" style={{ margin: 0 }}>
-            <Navbar.Brand>TaskBoard</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                {/* Button for Information Modal =======*/}
-                <Button variant={this.state.navTheme}
-                  onClick={() => {
-                    this.handleModal1();
-                  }}
-                >
-                  Information
-                </Button>
-                
-                <Modal size="lg" show={this.state.showModal1}>
+        <Navbar
+          id="navbar"
+          collapseOnSelect
+          sticky="top"
+          expand="md"
+          className="p-3"
+          bg={this.state.navTheme}
+          variant={this.state.navTheme}
+        >
+          <Navbar.Brand className="d-none d-sm-block p-3 col-sm-3">
+            <Nav.Link href="/">TaskBoard</Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Brand className="d-sm-none col-3">
+            <Nav.Link href="/">
+              <HomeIcon id="Home_Icon" />
+            </Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="container-fluid text-center">
+              <Nav.Item className="ms-auto" />
+              {/* Button for Information Modal =======*/}
+              <Button
+                variant={this.state.navTheme}
+                onClick={() => {
+                  this.handleModal1();
+                }}
+              >
+                Information
+              </Button>
+
+              <Modal size="lg" show={this.state.showModal1}>
                 <div id="information">
-                  <Modal.Body >
+                  <Modal.Body>
                     <h1>Information</h1>
                     <Accordion>
                       <Alert variant="info">
@@ -141,7 +141,7 @@ class MyNavbar extends React.Component {
                       </Accordion.Item>
                     </Accordion>
                   </Modal.Body>
-                  <Modal.Footer >
+                  <Modal.Footer>
                     <Button
                       variant="danger"
                       onClick={() => {
@@ -151,78 +151,75 @@ class MyNavbar extends React.Component {
                       Close
                     </Button>
                   </Modal.Footer>
-                  </div>
-                </Modal>
-                
-                {/* =================================== */}
+                </div>
+              </Modal>
 
-                {/* Button for Settings Modal =========*/}
-                <Button variant={this.state.navTheme}
-                  onClick={() => {
-                    this.handleModal2();
-                  }}
-                >
-                  Settings
-                </Button>
-                <Modal show={this.state.showModal2}>
-                  <Modal.Header class="d-flex justify-content-center">
-                      <h1>Settings</h1>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <Button className="btn-block mr-1 mt-1 btn-lg">
-                          Edit Profile
-                        </Button>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Button className={this.state.modButtonTxt}>
-                          ❤️ Favorites
-                        </Button>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Button className={this.state.modButtonTxt}>
-                          💻 Downloads
-                        </Button>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Button className={this.state.modButtonTxt}>
-                          🌐 Languages
-                        </Button>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Button className={this.state.modButtonTxt}>
-                          🌙 Dark Mode
-                        </Button>
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        this.handleModal2();
-                      }}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        this.handleModal2();
-                      }}
-                    >
-                      Save Changes
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-                {/* =================================== */}
+              {/* Button for Settings Modal =========*/}
+              <Button
+                variant={this.state.navTheme}
+                onClick={() => {
+                  this.handleModal2();
+                }}
+              >
+                Settings
+              </Button>
+              <Modal show={this.state.showModal2}>
+                <Modal.Header class="d-flex justify-content-center">
+                  <h1>Settings</h1>
+                </Modal.Header>
+                <Modal.Body>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <Button className="btn-block mr-1 mt-1 btn-lg">
+                        Edit Profile
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button className={this.state.modButtonTxt}>
+                        ❤️ Favorites
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button className={this.state.modButtonTxt}>
+                        💻 Downloads
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button className={this.state.modButtonTxt}>
+                        🌐 Languages
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button className={this.state.modButtonTxt}>
+                        🌙 Dark Mode
+                      </Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="danger"
+                    onClick={() => {
+                      this.handleModal2();
+                    }}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      this.handleModal2();
+                    }}
+                  >
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
 
-                <a href="/">
-                  <Button variant={this.state.navTheme}>Log-Out</Button>
-                </a>
-              </Nav>
-            </Navbar.Collapse>
-          </div>
+              <Nav.Link variant={this.state.navTheme} href="/">
+                Charts
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
       </div>
     );

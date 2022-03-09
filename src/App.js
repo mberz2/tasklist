@@ -26,16 +26,16 @@ import PageNotFound from "./components/pages/PageNotFound";
 import Main from "./components/Main";
 import Navbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer";
-import {ThemeProvider} from "styled-components";
-import  {useDarkMode} from "./components/UseDarkMode";
+import { ThemeProvider } from "styled-components";
+import { useDarkMode } from "./components/UseDarkMode";
 import { GlobalStyles } from "./components/GlobalStyles";
 import { lightTheme, darkTheme } from "./components/Themes";
-import Toggle from "./components/Toggler"
+import Toggle from "./components/Toggler";
 
 export default function App() {
   let TAG = "[App.js] ";
   const [theme, themeToggler, mountedComponent] = useDarkMode();
-  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+  const themeMode = theme === "light" ? lightTheme : darkTheme;
 
   // Method to create a new board
   const createNewBoard = async (board) => {
@@ -131,15 +131,18 @@ export default function App() {
       console.log(TAG + "Error deleting list.", error);
     }
   };
-  if(!mountedComponent) return <div/>
+  if (!mountedComponent) return <div />;
   // Render the page
   return (
     <div>
       <ThemeProvider theme={themeMode}>
         <>
-          <GlobalStyles/>
+          <GlobalStyles />
           <Toggle theme={theme} toggleTheme={themeToggler} />
-          <Navbar dataFromApp = {theme}/>
+          <Navbar
+            dataFromApp={theme}
+            data={<Toggle theme={theme} toggleTheme={themeToggler} />}
+          />
           <Router>
             <Routes>
               <Route path="/" element={<Main />} />
@@ -157,7 +160,8 @@ export default function App() {
               <Route
                 path="/board/:boardId"
                 element={
-                  <Board dataFromApp = {theme}
+                  <Board
+                    dataFromApp={theme}
                     deleteBoard={deleteBoard}
                     deleteList={deleteList}
                     updateBoard={updateBoard}
@@ -166,7 +170,7 @@ export default function App() {
               />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
-            <Footer dataFromApp = {theme} />
+            <Footer dataFromApp={theme} />
           </Router>
         </>
       </ThemeProvider>
