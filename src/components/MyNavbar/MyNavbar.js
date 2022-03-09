@@ -230,10 +230,6 @@ class MyNavbar extends React.Component {
                   </Modal.Footer>
                 </div>
               </Modal>
-
-              <Nav.Link variant={this.state.navTheme} href="/">
-                Logout
-              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

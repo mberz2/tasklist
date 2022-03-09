@@ -25,9 +25,14 @@ const HomePage = () => {
       </div>
       <div className="d-grid gap-2">
         {console.log(JSON.stringify(user.uid, null, 2))}
-        <Link to={`/${user.displayName}/boards`}>
-          <Button variant="primary">Go to Boards</Button>
-        </Link>
+        <div id="homepage_buttons">
+          <Link to={`/${user.displayName}/boards`}>
+            <Button variant="primary">Go to Boards</Button>
+          </Link>
+          <Button variant="primary" onClick={handleLogout}>
+            Log out
+          </Button>
+        </div>
       </div>
     </>
   );

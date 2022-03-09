@@ -14,9 +14,11 @@
 #footer {
   padding-right: 20px;
   padding-left: 20px;
-  display: flex;
-  align-content: center;
-  text-align: center;
+}
+
+#footer_modal div {
+  background: var(--bg_color);
+  color: var(--text_color);
 }
 
 #navbar Button,
