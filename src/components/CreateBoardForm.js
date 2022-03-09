@@ -1,16 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+
+function Alert(props) {
+  return (
+    <Modal {...props} size="lg" centered>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Missing Board Parameters
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body closeButton>
+        <h4>Error!</h4>
+        <p>
+          Please ensure you have both a name and default color set for the
+          board.
+        </p>
+      </Modal.Body>
+      <Modal.Footer></Modal.Footer>
+    </Modal>
+  );
+}
 
 function CreateBoardForm(props) {
   let TAG = "[CreateBoardForm.js] ";
   let params = useParams();
-  console.log(TAG + "Props\n" + JSON.stringify(props));
-  console.log(TAG + "Params\n" + JSON.stringify(params));
+  //console.log(TAG + "Props\n" + JSON.stringify(props));
+  //console.log(TAG + "Params\n" + JSON.stringify(params));
 
   //Default state
   const [state, setState] = useState({ title: "", background: "" });
+  const [modalShow, setModalShow] = React.useState(false);
   let titleInput = React.createRef();
   let bgInput = React.createRef();
 
@@ -31,13 +53,17 @@ function CreateBoardForm(props) {
       user: params.userId
     };
     if (state.title && state.background) {
-      console.log("Creating board");
+      console.log(TAG + "Creating board");
       props.createNewBoard(board);
+      return;
     } else if (state.background === "default") {
-      console.log("Invalid background");
+      console.log(TAG + "Invalid background");
+      setModalShow(true);
     } else {
-      console.log("Missing params in create board.");
+      console.log(TAG + "Missing params in create board.");
+      setModalShow(true);
     }
+
     titleInput.current.value = "";
     bgInput.current.value = "default";
 
@@ -47,7 +73,12 @@ function CreateBoardForm(props) {
   };
 
   return (
-    <form className="create-board-wrapper" onSubmit={(e) => handleSubmit(e)}>
+    <form
+      className="create-board-wrapper"
+      onSubmit={(e) => {
+        handleSubmit(e);
+      }}
+    >
       <input
         ref={titleInput}
         type="text"
@@ -64,6 +95,8 @@ function CreateBoardForm(props) {
         <option value="#ffad33">Orange</option>
       </select>
       <button type="submit">Create new board</button>
+
+      <Alert show={modalShow} onHide={() => setModalShow(false)} />
     </form>
   );
 }
