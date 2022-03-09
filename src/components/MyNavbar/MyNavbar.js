@@ -14,14 +14,56 @@ import {
 } from "react-bootstrap";
 
 class MyNavbar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    const buttonTxt = localStorage.getItem('theme') === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
+    const genTheme = localStorage.getItem('theme') === `light` ? `bg-light text-black` : `bg-dark text-white`;
+    const modTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
+    super(props);
     this.state = {
       showModal1: false,
       showModal2: false,
+      navTheme: localStorage.getItem('theme'),
+      modButtonTxt: buttonTxt,
+      classNorm: genTheme,
+      modNorm: modTheme
     };
+    let localStorageTheme = localStorage.getItem("theme");
+    document.body.className = `theme_${localStorageTheme}`;
   }
-  
+  componentDidUpdate() {
+    if (this.state.navTheme !== localStorage.getItem("theme")) {
+      this.setState({ navTheme: localStorage.getItem("theme") });
+      let localStorageTheme = localStorage.getItem("theme");
+      document.body.className = `theme_${localStorageTheme}`;
+    }
+    if (this.state.navThem === `light`){
+      
+    }
+  }
+  /*
+  componentDidMount(){
+    console.log("Mounting");
+    let localStorageTheme = localStorage.getItem("theme");
+    this.state.navTheme = localStorageTheme;
+  }
+
+  componentDidUpdate(){
+    
+    
+    console.log(`update spotted`);
+    if(!localStorageTheme){
+      console.log(`how did you do that`);
+      localStorageTheme = `light`;
+    }
+    
+    let localStorageTheme = localStorage.getItem("theme");
+    //if(localStorageTheme === `light`) localStorageTheme = `dark`;
+    //else{localStorageTheme = `light`};
+    this.state.navTheme = localStorageTheme;
+    console.log(localStorageTheme);
+    console.log(this.state.navTheme);
+  }
+  */
   handleModal1() {
     this.setState({ showModal1: !this.state.showModal1 });
   }
@@ -33,25 +75,25 @@ class MyNavbar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar id="navbar" bg="light" expand="sm">
+        <Navbar id="navbar" bg={this.state.navTheme} variant={this.state.navTheme} expand="sm">
           <div class="container-fluid" style={{ margin: 0 }}>
             <Navbar.Brand>TaskBoard</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
                 {/* Button for Information Modal =======*/}
-                <Button
+                <Button variant={this.state.navTheme}
                   onClick={() => {
                     this.handleModal1();
                   }}
                 >
                   Information
                 </Button>
+                
                 <Modal size="lg" show={this.state.showModal1}>
-                  <Modal.Header>
+                <div id="information">
+                  <Modal.Body >
                     <h1>Information</h1>
-                  </Modal.Header>
-                  <Modal.Body>
                     <Accordion>
                       <Alert variant="info">
                         <Alert.Heading>
@@ -99,7 +141,7 @@ class MyNavbar extends React.Component {
                       </Accordion.Item>
                     </Accordion>
                   </Modal.Body>
-                  <Modal.Footer>
+                  <Modal.Footer >
                     <Button
                       variant="danger"
                       onClick={() => {
@@ -109,11 +151,13 @@ class MyNavbar extends React.Component {
                       Close
                     </Button>
                   </Modal.Footer>
+                  </div>
                 </Modal>
+                
                 {/* =================================== */}
 
                 {/* Button for Settings Modal =========*/}
-                <Button
+                <Button variant={this.state.navTheme}
                   onClick={() => {
                     this.handleModal2();
                   }}
@@ -122,9 +166,7 @@ class MyNavbar extends React.Component {
                 </Button>
                 <Modal show={this.state.showModal2}>
                   <Modal.Header class="d-flex justify-content-center">
-                    <div>
                       <h1>Settings</h1>
-                    </div>
                   </Modal.Header>
                   <Modal.Body>
                     <ListGroup variant="flush">
@@ -134,22 +176,22 @@ class MyNavbar extends React.Component {
                         </Button>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Button className="btn-block mr-1 mt-1 btn-lg bg-light text-dark">
+                        <Button className={this.state.modButtonTxt}>
                           ❤️ Favorites
                         </Button>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Button className="btn-block mr-1 mt-1 btn-lg bg-light text-dark">
+                        <Button className={this.state.modButtonTxt}>
                           💻 Downloads
                         </Button>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Button className="btn-block mr-1 mt-1 btn-lg bg-light text-dark">
+                        <Button className={this.state.modButtonTxt}>
                           🌐 Languages
                         </Button>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Button className="btn-block mr-1 mt-1 btn-lg bg-light text-dark">
+                        <Button className={this.state.modButtonTxt}>
                           🌙 Dark Mode
                         </Button>
                       </ListGroup.Item>
@@ -176,7 +218,7 @@ class MyNavbar extends React.Component {
                 {/* =================================== */}
 
                 <a href="/">
-                  <Button variant="danger">Log-Out</Button>
+                  <Button variant={this.state.navTheme}>Log-Out</Button>
                 </a>
               </Nav>
             </Navbar.Collapse>

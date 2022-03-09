@@ -133,7 +133,6 @@ export default function App() {
   };
   if(!mountedComponent) return <div/>
   // Render the page
-  console.log(theme);
   return (
     <div>
       <ThemeProvider theme={themeMode}>
@@ -158,7 +157,7 @@ export default function App() {
               <Route
                 path="/board/:boardId"
                 element={
-                  <Board
+                  <Board dataFromApp = {theme}
                     deleteBoard={deleteBoard}
                     deleteList={deleteList}
                     updateBoard={updateBoard}

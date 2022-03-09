@@ -34,3 +34,30 @@
   /*color: black;*/
   text-decoration: none;
 }
+.modal, .modal-body, .modal-footer{
+  border: none;
+  outline: none;
+}
+.list-group{
+  border: none;
+}
+.accordion-body li{
+  color: black;
+  /*background-color: #909090;*/
+}
+.theme_light {
+  --bg_color: #acd6ef;
+  --text_color: #363537;
+}
+
+.theme_dark {
+  --bg_color: #363537;
+  --text_color: #fafafa;
+}
+#information{
+  background: var(--bg_color);
+  color: var(--text_color);
+}
+.accordion-body, .accordion{
+  border: none;
+}
