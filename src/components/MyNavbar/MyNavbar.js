@@ -7,11 +7,12 @@ import {
   Button,
   Modal,
   ModalBody,
+  Accordion,
 } from "react-bootstrap";
-import {
-  flattenDiagnosticMessageText,
-  isConstructorDeclaration,
-} from "typescript";
+// import {
+//   flattenDiagnosticMessageText,
+//   isConstructorDeclaration,
+// } from "typescript";
 // import { MenuItems } from "./MenuItems";
 
 class MyNavbar extends React.Component {
@@ -52,33 +53,54 @@ class MyNavbar extends React.Component {
                 <Modal size="lg" show={this.state.showModal1}>
                   <Modal.Header>Information</Modal.Header>
                   <Modal.Body>
-                    <h2>How to use TaskBoard</h2>
-                    <hr />
-                    <h4>Board</h4>
-                    <li>Title a board i.e., input School, Home, Work, etc.</li>
-                    <h4>Lists</h4>
-                    <li>
-                      Title a list i.e., if your board is School, input Math,
-                      History, Science, etc.
-                    </li>
-                    <h4>Cards</h4>
-                    <li>
-                      Title a card i.e., if your list is Math, input HW 1,
-                      Midterm, Tutor Session, etc.
-                    </li>
-                    <h4>Further Customization</h4>
-                    <li>Cards titles can edited</li>
-                    <li>Cards can be color labeled</li>
-                    <li>Cards can be deleted.</li>
-                    <li>Cards are draggable between lists.</li>
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Boards</Accordion.Header>
+                        <Accordion.Body>
+                          <li>
+                            Title a board i.e., input School, Home, Work, etc.
+                          </li>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="1">
+                        <Accordion.Header>Lists</Accordion.Header>
+                        <Accordion.Body>
+                          <li>
+                            Title a list i.e., if your board is School, input
+                            Math, History, Science, etc.
+                          </li>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="2">
+                        <Accordion.Header>Cards</Accordion.Header>
+                        <Accordion.Body>
+                          <li>
+                            Title a list i.e., if your board is School, input
+                            Math, History, Science, etc.
+                          </li>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="3">
+                        <Accordion.Header>
+                          Further Customization
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <li>Cards titles can edited.</li>
+                          <li>Cards can be color labeled.</li>
+                          <li>Cards can be deleted.</li>
+                          <li>Cards are draggable between lists.</li>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button
+                      variant="danger"
                       onClick={() => {
                         this.handleModal1();
                       }}
                     >
-                      Close Modal
+                      Close
                     </Button>
                   </Modal.Footer>
                 </Modal>
@@ -102,7 +124,7 @@ class MyNavbar extends React.Component {
                         this.handleModal2();
                       }}
                     >
-                      Close Modal
+                      Close
                     </Button>
                     <Button
                       onClick={() => {
@@ -116,7 +138,7 @@ class MyNavbar extends React.Component {
                 {/* =================================== */}
 
                 <a href="/">
-                  <Button>Log-Out</Button>
+                  <Button variant="danger">Log-Out</Button>
                 </a>
               </Nav>
             </Navbar.Collapse>
