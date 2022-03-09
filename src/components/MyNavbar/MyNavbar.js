@@ -216,7 +216,7 @@ class MyNavbar extends React.Component {
               </Modal>
 
               <Nav.Link variant={this.state.navTheme} href="/">
-                Charts
+                Logout
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
