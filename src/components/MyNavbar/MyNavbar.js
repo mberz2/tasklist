@@ -35,10 +35,9 @@ class MyNavbar extends React.Component {
     };
 
     let localStorageTheme = localStorage.getItem("theme");
-    if(localStorageTheme !== null)
+    if (localStorageTheme !== null)
       document.body.className = `theme_${localStorageTheme}`;
-    else
-      document.body.className = `theme_light`;
+    else document.body.className = `theme_light`;
   }
 
   componentDidUpdate() {
@@ -72,7 +71,7 @@ class MyNavbar extends React.Component {
           variant={this.state.navTheme}
         >
           <Navbar.Brand className="d-none d-sm-block p-3 col-sm-3">
-            <Nav.Link href="/">TaskBoard</Nav.Link>
+            <Nav.Link href="/home">TaskBoard</Nav.Link>
           </Navbar.Brand>
           <Navbar.Brand className="d-sm-none col-3">
             <Nav.Link href="/">
