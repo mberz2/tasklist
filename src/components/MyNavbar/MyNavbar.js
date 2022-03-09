@@ -16,16 +16,14 @@ import {
 class MyNavbar extends React.Component {
   constructor(props) {
     const buttonTxt = localStorage.getItem('theme') === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
-    const genTheme = localStorage.getItem('theme') === `light` ? `bg-light text-black` : `bg-dark text-white`;
-    const modTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
+    const classTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
     super(props);
     this.state = {
       showModal1: false,
       showModal2: false,
       navTheme: localStorage.getItem('theme'),
       modButtonTxt: buttonTxt,
-      classNorm: genTheme,
-      modNorm: modTheme
+      classNorm: classTheme
     };
     let localStorageTheme = localStorage.getItem("theme");
     document.body.className = `theme_${localStorageTheme}`;
@@ -35,35 +33,12 @@ class MyNavbar extends React.Component {
       this.setState({ navTheme: localStorage.getItem("theme") });
       let localStorageTheme = localStorage.getItem("theme");
       document.body.className = `theme_${localStorageTheme}`;
-    }
-    if (this.state.navThem === `light`){
-      
+      const currTheme = localStorageTheme === `light` ? `bg-light` : `bg-dark`;
+      this.setState({ classNorm : currTheme});
+      const currButton = localStorageTheme  === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
+      this.setState({ modButtonTxt : currButton});
     }
   }
-  /*
-  componentDidMount(){
-    console.log("Mounting");
-    let localStorageTheme = localStorage.getItem("theme");
-    this.state.navTheme = localStorageTheme;
-  }
-
-  componentDidUpdate(){
-    
-    
-    console.log(`update spotted`);
-    if(!localStorageTheme){
-      console.log(`how did you do that`);
-      localStorageTheme = `light`;
-    }
-    
-    let localStorageTheme = localStorage.getItem("theme");
-    //if(localStorageTheme === `light`) localStorageTheme = `dark`;
-    //else{localStorageTheme = `light`};
-    this.state.navTheme = localStorageTheme;
-    console.log(localStorageTheme);
-    console.log(this.state.navTheme);
-  }
-  */
   handleModal1() {
     this.setState({ showModal1: !this.state.showModal1 });
   }
@@ -91,26 +66,26 @@ class MyNavbar extends React.Component {
                 </Button>
                 
                 <Modal size="lg" show={this.state.showModal1}>
-                <div id="information">
-                  <Modal.Body >
+                <div class="information">
+                  <Modal.Body className={this.state.classNorm}>
                     <h1>Information</h1>
-                    <Accordion>
+                    <Accordion className={this.state.classNorm}>
                       <Alert variant="info">
-                        <Alert.Heading>
+                        <Alert.Heading >
                           <b>Click items below!</b>
                         </Alert.Heading>
                         <hr />
                         <p>Learn how to use our The TaskBoard Application!</p>
                       </Alert>
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>Boards</Accordion.Header>
-                        <Accordion.Body>
+                      <Accordion.Item className={this.state.classNorm} eventKey="0">
+                        <Accordion.Header className={this.state.classNorm}>Boards</Accordion.Header>
+                        <Accordion.Body className={this.state.classNorm}>
                           <li>
                             Title a board i.e., input School, Home, Work, etc.
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="1">
+                      <Accordion.Item className={this.state.classNorm} eventKey="1">
                         <Accordion.Header>Lists</Accordion.Header>
                         <Accordion.Body>
                           <li>
@@ -119,20 +94,20 @@ class MyNavbar extends React.Component {
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="2">
-                        <Accordion.Header>Cards</Accordion.Header>
-                        <Accordion.Body>
+                      <Accordion.Item className={this.state.classNorm} eventKey="2">
+                        <Accordion.Header className={this.state.classNorm}>Cards</Accordion.Header>
+                        <Accordion.Body className={this.state.classNorm}>
                           <li>
                             Title a list i.e., if your board is School, input
                             Math, History, Science, etc.
                           </li>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="3">
-                        <Accordion.Header>
+                      <Accordion.Item className={this.state.classNorm} eventKey="3">
+                        <Accordion.Header className={this.state.classNorm}>
                           Further Customization
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className={this.state.classNorm}>
                           <li>Cards titles can edited.</li>
                           <li>Cards can be color labeled.</li>
                           <li>Cards can be deleted.</li>
@@ -165,32 +140,31 @@ class MyNavbar extends React.Component {
                   Settings
                 </Button>
                 <Modal show={this.state.showModal2}>
-                  <Modal.Header class="d-flex justify-content-center">
-                      <h1>Settings</h1>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
+                  <div class="information">
+                  <Modal.Body className={this.state.classNorm}>
+                    <h1>Settings</h1>
+                    <ListGroup className={this.state.classNorm} variant="flush">
+                      <ListGroup.Item className={this.state.classNorm}>
                         <Button className="btn-block mr-1 mt-1 btn-lg">
                           Edit Profile
                         </Button>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      <ListGroup.Item className={this.state.classNorm}>
                         <Button className={this.state.modButtonTxt}>
                           ❤️ Favorites
                         </Button>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      <ListGroup.Item className={this.state.classNorm}>
                         <Button className={this.state.modButtonTxt}>
                           💻 Downloads
                         </Button>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      <ListGroup.Item className={this.state.classNorm}>
                         <Button className={this.state.modButtonTxt}>
                           🌐 Languages
                         </Button>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      <ListGroup.Item className={this.state.classNorm}>
                         <Button className={this.state.modButtonTxt}>
                           🌙 Dark Mode
                         </Button>
@@ -214,6 +188,7 @@ class MyNavbar extends React.Component {
                       Save Changes
                     </Button>
                   </Modal.Footer>
+                  </div>
                 </Modal>
                 {/* =================================== */}
 

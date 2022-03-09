@@ -34,7 +34,7 @@
   /*color: black;*/
   text-decoration: none;
 }
-.modal, .modal-body, .modal-footer{
+.modal, .modal-body, .modal-footer, .modal-header{
   border: none;
   outline: none;
 }
@@ -42,7 +42,7 @@
   border: none;
 }
 .accordion-body li{
-  color: black;
+  /*color: black;*/
   /*background-color: #909090;*/
 }
 .theme_light {
@@ -54,7 +54,7 @@
   --bg_color: #363537;
   --text_color: #fafafa;
 }
-#information{
+.information{
   background: var(--bg_color);
   color: var(--text_color);
 }
