@@ -82,8 +82,8 @@ function Card(props) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+          <Modal.Title id="edit_modal contained-modal-title-vcenter">
+            Edit Card Details
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

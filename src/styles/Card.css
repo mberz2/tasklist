@@ -74,6 +74,10 @@
   color: black;
 }
 
+#edit_modal {
+  color: black;
+}
+
 .modal-body {
   margin: auto;
   padding: 20px;
