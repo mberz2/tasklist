@@ -104,7 +104,13 @@ class MyNavbar extends React.Component {
                     >
                       Close Modal
                     </Button>
-                    <Button>Save Changes</Button>
+                    <Button
+                      onClick={() => {
+                        this.handleModal2();
+                      }}
+                    >
+                      Save Changes
+                    </Button>
                   </Modal.Footer>
                 </Modal>
                 {/* =================================== */}
