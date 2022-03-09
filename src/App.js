@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { db, boardsRef } from "./firebase";
 import {
@@ -23,19 +23,24 @@ import "./styles/Normalize.css";
 import Board from "./components/Board";
 import Home from "./components/pages/Home";
 import PageNotFound from "./components/pages/PageNotFound";
-import Main from "./components/Main";
 import Navbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer";
-import {ThemeProvider} from "styled-components";
-import  {useDarkMode} from "./components/UseDarkMode";
+import { ThemeProvider } from "styled-components";
+import { useDarkMode } from "./components/UseDarkMode";
 import { GlobalStyles } from "./components/GlobalStyles";
 import { lightTheme, darkTheme } from "./components/Themes";
-import Toggle from "./components/Toggler"
+import Toggle from "./components/Toggler";
+
+import HomePage from "./components/HomePage";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 export default function App() {
   let TAG = "[App.js] ";
   const [theme, themeToggler, mountedComponent] = useDarkMode();
-  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+  const themeMode = theme === "light" ? lightTheme : darkTheme;
 
   // Method to create a new board
   const createNewBoard = async (board) => {
@@ -131,42 +136,58 @@ export default function App() {
       console.log(TAG + "Error deleting list.", error);
     }
   };
-  if(!mountedComponent) return <div/>
+  if (!mountedComponent) return <div />;
   // Render the page
   return (
     <div>
       <ThemeProvider theme={themeMode}>
         <>
-          <GlobalStyles/>
+          <GlobalStyles />
           <Toggle theme={theme} toggleTheme={themeToggler} />
-          <Navbar dataFromApp = {theme}/>
+          <Navbar
+            dataFromApp={theme}
+            data={<Toggle theme={theme} toggleTheme={themeToggler} />}
+          />
           <Router>
-            <Routes>
-              <Route path="/" element={<Main />} />
-              <Route
-                path="/:userId/boards"
-                element={
-                  <>
-                    <Home
-                      createNewBoard={createNewBoard}
+            <UserAuthContextProvider>
+              <Routes>
+                <Route
+                  path="/home"
+                  element={
+                    <ProtectedRoute>
+                      <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                {/*               <Route path="/" element={<Main />} /> */}
+                <Route
+                  path="/:userId/boards"
+                  element={
+                    <>
+                      <Home
+                        createNewBoard={createNewBoard}
+                        deleteBoard={deleteBoard}
+                      />
+                    </>
+                  }
+                />
+                <Route
+                  path="/board/:boardId"
+                  element={
+                    <Board
+                      dataFromApp={theme}
                       deleteBoard={deleteBoard}
+                      deleteList={deleteList}
+                      updateBoard={updateBoard}
                     />
-                  </>
-                }
-              />
-              <Route
-                path="/board/:boardId"
-                element={
-                  <Board dataFromApp = {theme}
-                    deleteBoard={deleteBoard}
-                    deleteList={deleteList}
-                    updateBoard={updateBoard}
-                  />
-                }
-              />
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-            <Footer dataFromApp = {theme} />
+                  }
+                />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </UserAuthContextProvider>
+            <Footer dataFromApp={theme} />
           </Router>
         </>
       </ThemeProvider>

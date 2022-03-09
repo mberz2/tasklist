@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import uuid from "react-uuid";
+import { useUserAuth } from "../context/UserAuthContext";
 
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -29,6 +30,7 @@ function Board(props) {
   //console.log(TAG + "State\n" + JSON.stringify(state));
   //console.log(TAG + "Params\n" + JSON.stringify(params));
 
+  const { logOut, user } = useUserAuth();
   const [list, setLists] = useState([]);
   const [board, setBoard] = useState({});
 
@@ -166,7 +168,12 @@ function Board(props) {
       <div className="lists-wrapper d-flex flex-wrap justify-content-around">
         <DragDropContext onDragEnd={onDragEnd}>
           {Object.keys(list).map((key) => (
-            <List dataFromBoard={props.dataFromApp} key={uuid()} list={list[key]} deleteList={props.deleteList} />
+            <List
+              dataFromBoard={props.dataFromApp}
+              key={uuid()}
+              list={list[key]}
+              deleteList={props.deleteList}
+            />
           ))}
         </DragDropContext>
       </div>
