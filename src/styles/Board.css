@@ -16,7 +16,7 @@
   border-radius: 5px;
   font-size: 1em;
   line-height: 1.5;
-  color: black;
+  /*color: black;*/
 }
 
 .create-board-wrapper select {
