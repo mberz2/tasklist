@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
+import { useUserAuth } from "../../context/UserAuthContext";
+
 function Home(props) {
   let TAG = "[Home.js] ";
   let params = useParams();
@@ -15,6 +17,7 @@ function Home(props) {
 
   // getter/setter for boards array.
   const [state, setState] = useState([]);
+  const { logOut, user } = useUserAuth();
 
   useEffect(() => {
     // Base query to cards
@@ -47,7 +50,7 @@ function Home(props) {
 
   return (
     <div className="homepage">
-      <p>Logged in as: {params.userId}</p>
+      <p>Logged in as: {user.displayName}</p>
       <CreateBoardForm createNewBoard={props.createNewBoard} />
       <div className="board-preview-wrapper">
         {Object.keys(state).map((key) => (

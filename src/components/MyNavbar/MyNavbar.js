@@ -1,33 +1,37 @@
 import React, { Component } from "react";
 import {
   Navbar,
-  Container,
   Nav,
-  NavDropdown,
   Button,
   Modal,
-  ModalBody,
   Accordion,
   ListGroup,
-  ButtonGroup,
-  Alert,
+  Alert
 } from "react-bootstrap";
+import HomeIcon from "@mui/icons-material/Home";
 
 class MyNavbar extends React.Component {
   constructor(props) {
+
     const buttonTxt = localStorage.getItem('theme') === `light` ? `btn-block mr-1 mt-1 btn-lg bg-light text-dark` : `btn-block mr-1 mt-1 btn-lg bg-dark text-white`;
     const classTheme = localStorage.getItem('theme') === `light` ? `bg-light` : `bg-dark`;
+    
     super(props);
+
     this.state = {
       showModal1: false,
       showModal2: false,
-      navTheme: localStorage.getItem('theme'),
+      navTheme: localStorage.getItem("theme"),
       modButtonTxt: buttonTxt,
       classNorm: classTheme
     };
+
     let localStorageTheme = localStorage.getItem("theme");
-    document.body.className = `theme_${localStorageTheme}`;
+    if (localStorageTheme !== null)
+      document.body.className = `theme_${localStorageTheme}`;
+    else document.body.className = `theme_light`;
   }
+
   componentDidUpdate() {
     if (this.state.navTheme !== localStorage.getItem("theme")) {
       this.setState({ navTheme: localStorage.getItem("theme") });
@@ -50,22 +54,40 @@ class MyNavbar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar id="navbar" bg={this.state.navTheme} variant={this.state.navTheme} expand="sm">
-          <div class="container-fluid" style={{ margin: 0 }}>
-            <Navbar.Brand>TaskBoard</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                {/* Button for Information Modal =======*/}
-                <Button variant={this.state.navTheme}
-                  onClick={() => {
-                    this.handleModal1();
-                  }}
-                >
-                  Information
-                </Button>
-                
-                <Modal size="lg" show={this.state.showModal1}>
+        <Navbar
+id="navbar" bg={this.state.navTheme} variant={this.state.navTheme}
+          collapseOnSelect
+          sticky="top"
+          expand="md"
+          className="p-3"
+        >
+          <Navbar.Brand className="d-none d-sm-block p-3 col-sm-3">
+            <Nav.Link href="/home">TaskBoard</Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Brand className="d-sm-none col-3">
+            <Nav.Link href="/">
+              <HomeIcon id="Home_Icon" />
+            </Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="container-fluid text-center">
+              <Nav.Item className="ms-auto" />
+              {/* Button for Information Modal =======*/}
+              <Button
+                variant={this.state.navTheme}
+                onClick={() => {
+                  this.handleModal1();
+                }}
+              >
+                Information
+              </Button>
+
+              <Modal
+                size="lg"
+                show={this.state.showModal1}
+                className="navbar_modal"
+              >
                 <div class="information">
                   <Modal.Body className={this.state.classNorm}>
                     <h1>Information</h1>
@@ -116,7 +138,7 @@ class MyNavbar extends React.Component {
                       </Accordion.Item>
                     </Accordion>
                   </Modal.Body>
-                  <Modal.Footer >
+                  <Modal.Footer>
                     <Button
                       variant="danger"
                       onClick={() => {
@@ -126,26 +148,30 @@ class MyNavbar extends React.Component {
                       Close
                     </Button>
                   </Modal.Footer>
-                  </div>
-                </Modal>
-                
-                {/* =================================== */}
+                </div>
+              </Modal>
 
-                {/* Button for Settings Modal =========*/}
-                <Button variant={this.state.navTheme}
-                  onClick={() => {
-                    this.handleModal2();
-                  }}
-                >
-                  Settings
-                </Button>
-                <Modal show={this.state.showModal2}>
-                  <div class="information">
-                  <Modal.Body className={this.state.classNorm}>
+              {/* Button for Settings Modal =========*/}
+              <Button
+                variant={this.state.navTheme}
+                onClick={() => {
+                  this.handleModal2();
+                }}
+              >
+                Settings
+              </Button>
+              <Modal
+                show={this.state.showModal2}
+                className="navbar_modal text-center"
+              >
+                <div class="information" id="settings">
+                  <Modal.Header class="d-flex justify-content-center">
                     <h1>Settings</h1>
-                    <ListGroup className={this.state.classNorm} variant="flush">
+                  </Modal.Header>
+                  <Modal.Body className={this.state.classNorm}>
+                    <ListGroup variant="flush" className={this.state.classNorm}>
                       <ListGroup.Item className={this.state.classNorm}>
-                        <Button className="btn-block mr-1 mt-1 btn-lg">
+                        <Button className={this.state.modButtonTxt}>
                           Edit Profile
                         </Button>
                       </ListGroup.Item>
@@ -171,7 +197,12 @@ class MyNavbar extends React.Component {
                       </ListGroup.Item>
                     </ListGroup>
                   </Modal.Body>
-                  <Modal.Footer>
+                  <Modal.Footer
+                    style={{
+                      display: "flex",
+                      justifyContent: "center"
+                    }}
+                  >
                     <Button
                       variant="danger"
                       onClick={() => {
@@ -188,16 +219,10 @@ class MyNavbar extends React.Component {
                       Save Changes
                     </Button>
                   </Modal.Footer>
-                  </div>
-                </Modal>
-                {/* =================================== */}
-
-                <a href="/">
-                  <Button variant={this.state.navTheme}>Log-Out</Button>
-                </a>
-              </Nav>
-            </Navbar.Collapse>
-          </div>
+                </div>
+              </Modal>
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
       </div>
     );
