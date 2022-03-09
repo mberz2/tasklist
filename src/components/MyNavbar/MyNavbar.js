@@ -92,7 +92,11 @@ class MyNavbar extends React.Component {
                 Information
               </Button>
 
-              <Modal size="lg" show={this.state.showModal1}>
+              <Modal
+                size="lg"
+                show={this.state.showModal1}
+                className="navbar_modal text-center"
+              >
                 <div id="information">
                   <Modal.Body>
                     <h1>Information</h1>
@@ -165,56 +169,66 @@ class MyNavbar extends React.Component {
               >
                 Settings
               </Button>
-              <Modal show={this.state.showModal2}>
-                <Modal.Header class="d-flex justify-content-center">
-                  <h1>Settings</h1>
-                </Modal.Header>
-                <Modal.Body>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Button className="btn-block mr-1 mt-1 btn-lg">
-                        Edit Profile
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button className={this.state.modButtonTxt}>
-                        ❤️ Favorites
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button className={this.state.modButtonTxt}>
-                        💻 Downloads
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button className={this.state.modButtonTxt}>
-                        🌐 Languages
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button className={this.state.modButtonTxt}>
-                        🌙 Dark Mode
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="danger"
-                    onClick={() => {
-                      this.handleModal2();
+              <Modal
+                show={this.state.showModal2}
+                className="navbar_modal text-center"
+              >
+                <div id="settings">
+                  <Modal.Header class="d-flex justify-content-center">
+                    <h1>Settings</h1>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        <Button className={this.state.modButtonTxt}>
+                          Edit Profile
+                        </Button>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button className={this.state.modButtonTxt}>
+                          ❤️ Favorites
+                        </Button>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button className={this.state.modButtonTxt}>
+                          💻 Downloads
+                        </Button>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button className={this.state.modButtonTxt}>
+                          🌐 Languages
+                        </Button>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button className={this.state.modButtonTxt}>
+                          🌙 Dark Mode
+                        </Button>
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Modal.Body>
+                  <Modal.Footer
+                    style={{
+                      display: "flex",
+                      justifyContent: "center"
                     }}
                   >
-                    Close
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      this.handleModal2();
-                    }}
-                  >
-                    Save Changes
-                  </Button>
-                </Modal.Footer>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        this.handleModal2();
+                      }}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        this.handleModal2();
+                      }}
+                    >
+                      Save Changes
+                    </Button>
+                  </Modal.Footer>
+                </div>
               </Modal>
 
               <Nav.Link variant={this.state.navTheme} href="/">

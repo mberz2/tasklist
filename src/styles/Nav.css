@@ -53,11 +53,23 @@
   /*background-color: #909090;*/
 }
 
+.navbar_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #information,
 #information div,
 #information button,
-#settings {
+#settings,
+#settings div,
+#settings button {
   background: var(--bg_color);
   color: var(--text_color);
-  border: var(--text_color);
+}
+
+#settings Button {
+  width: 80%;
 }
