@@ -53,7 +53,8 @@ function Footer(props) {
     <Navbar
       id="footer"
       fixed="bottom"
-      bg="light"
+      bg={props.dataFromApp}
+      variant={props.dataFromApp}
       expand="sm"
       className="container-fluid text-center"
     >
@@ -61,10 +62,10 @@ function Footer(props) {
         <Navbar.Toggle className="container-fluid text-center" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto me-auto gap-4">
-            <Button variant="primary" onClick={() => setModalShow(true)}>
+            <Button variant={props.dataFromApp} onClick={() => setModalShow(true)}>
               About
             </Button>
-            <Button variant="primary">
+            <Button variant={props.dataFromApp}>
               <a href="https://github.com/mberz2/tasklist">Github</a>
             </Button>
           </Nav>

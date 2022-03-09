@@ -22,15 +22,16 @@ import Main from "./components/Main";
 import Navbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer";
 import {ThemeProvider} from "styled-components";
-import { GlobalStyles } from "./components/globalStyles";
-import { lightTheme, darkTheme } from "./components/themes"
+import  {useDarkMode} from "./components/UseDarkMode";
+import { GlobalStyles } from "./components/GlobalStyles";
+import { lightTheme, darkTheme } from "./components/Themes";
+import Toggle from "./components/Toggler"
 
 export default function App() {
   let TAG = "[App.js] ";
-  const [theme, setTheme] = useState('light');
-  const themeToggler = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light')
-  }
+  const [theme, themeToggler, mountedComponent] = useDarkMode();
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+
   // Method to create a new board
   const createNewBoard = async (board) => {
     try {
@@ -125,15 +126,16 @@ export default function App() {
       console.log(TAG + "Error deleting list.", error);
     }
   };
-
+  if(!mountedComponent) return <div/>
   // Render the page
+  console.log(theme);
   return (
     <div>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <ThemeProvider theme={themeMode}>
         <>
           <GlobalStyles/>
-          <button onClick={themeToggler}>Switch Theme</button>
-          <Navbar />
+          <Toggle theme={theme} toggleTheme={themeToggler} />
+          <Navbar dataFromApp = {theme}/>
           <Router>
             <Routes>
               <Route path="/" element={<Main />} />
@@ -160,7 +162,7 @@ export default function App() {
               />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
-            <Footer />
+            <Footer dataFromApp = {theme} />
           </Router>
         </>
       </ThemeProvider>

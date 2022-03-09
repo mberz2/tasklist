@@ -8,16 +8,22 @@ import {
   Modal,
   ModalBody
 } from "react-bootstrap";
-import {ThemeProvider} from "styled-components";
-import { GlobalStyles } from "../globalStyles";
-import { lightTheme, darkTheme } from "../themes"
 import HomeIcon from "@mui/icons-material/Home";
-// import { MenuItems } from "./MenuItems";
 
-const MyNavbar = () => {
+let navTheme = "";
+const identTheme = () => {
+  const saved = localStorage.getItem('theme');
+  const initialValue = JSON.stringify(saved);
+  navTheme = initialValue;
+  console.log(navTheme);
+}
+const navTest = "dark"
+
+const MyNavbar = (props) => {
+  identTheme();
   return (
     <div>
-      <Navbar id="navbar" bg="light" expand="sm">
+      <Navbar id="navbar" bg={props.dataFromApp} variant={props.dataFromApp} expand="sm">
         <Container>
           <Navbar.Brand className="d-none d-sm-block">TaskBoard</Navbar.Brand>
           <Navbar.Brand className="d-sm-none col-3">
@@ -28,15 +34,15 @@ const MyNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Button>Information</Button>
+              <Button variant={props.dataFromApp}>Information</Button>
               <Modal show={false}>
                 <Modal.Header>Modal Head</Modal.Header>
                 <Modal.Body>Modal Body</Modal.Body>
                 <Modal.Footer>Modal Footer</Modal.Footer>
               </Modal>
-              <Button>Settings</Button>
+              <Button variant={props.dataFromApp}>Settings</Button>
               <a href="/">
-                <Button>Log-Out</Button>
+                <Button variant={props.dataFromApp}>Log-Out</Button>
               </a>
             </Nav>
           </Navbar.Collapse>
