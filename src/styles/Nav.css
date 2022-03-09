@@ -40,9 +40,7 @@
   color: var(--text_color);
   text-decoration: none;
 }
-.modal,
-.modal-body,
-.modal-footer {
+.modal, .modal-body, .modal-footer, .modal-header{
   border: none;
   outline: none;
 }
@@ -50,8 +48,9 @@
 .list-group {
   border: none;
 }
-.accordion-body li {
-  color: var(--text_color);
+
+.accordion-body li{
+  /*color: black;*/
   /*background-color: #909090;*/
 }
 
@@ -62,12 +61,7 @@
   align-items: center;
 }
 
-#information,
-#information div,
-#information button,
-#settings,
-#settings div,
-#settings button {
+.information{
   background: var(--bg_color);
   color: var(--text_color);
 }
