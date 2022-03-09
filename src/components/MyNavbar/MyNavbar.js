@@ -95,7 +95,7 @@ class MyNavbar extends React.Component {
               <Modal
                 size="lg"
                 show={this.state.showModal1}
-                className="navbar_modal text-center"
+                className="navbar_modal"
               >
                 <div id="information">
                   <Modal.Body>
